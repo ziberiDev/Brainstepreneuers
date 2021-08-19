@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Accademy;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
@@ -22,8 +24,17 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $filepath = storage_path('app/public/images');
+        if(!File::exists($filepath)){
+            File::makeDirectory($filepath);
+        }
+
         return [
-            'name' => $this->faker->name(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'accademy_id' => Accademy::inRandomOrder()->first()->id,
+            'biography' => $this->faker->text(400),
+            'image' => $this->faker->image($filepath , 640 , 480 , null , false),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
