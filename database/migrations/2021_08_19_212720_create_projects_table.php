@@ -21,7 +21,7 @@ class CreateProjectsTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('name');
-            $table->string('description');
+            $table->text('description');
             $table->boolean('assebled')->default(0);
             $table->timestamps();
         });

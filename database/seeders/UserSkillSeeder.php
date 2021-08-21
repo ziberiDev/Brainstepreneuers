@@ -17,7 +17,7 @@ class UserSkillSeeder extends Seeder
     public function run()
     {
         $users = User::all()->each(function ($user) {
-            for ($i = 0; $i < 3; $i++) {
+            for ($i = 0; $i < rand(5 , 10); $i++) {
 
                 UserSkill::create([
                     "user_id" => $user->id,

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectSkillsTable extends Migration
+class CreateAccademyProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateProjectSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_skills', function (Blueprint $table) {
+        Schema::create('accademy_projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")
+            $table->foreignId("project_id")
                 ->constrained()
                 ->onDelete('cascade');
 
-            $table->foreignId("skill_id")
+            $table->foreignId("accademy_id")
                 ->constrained()
                 ->onDelete('cascade');
                 
@@ -34,6 +34,6 @@ class CreateProjectSkillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_skills');
+        Schema::dropIfExists('accademy_projects');
     }
 }

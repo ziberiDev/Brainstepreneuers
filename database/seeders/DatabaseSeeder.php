@@ -18,8 +18,10 @@ class DatabaseSeeder extends Seeder
             SkillSeeder::class,
             AccademySeeder::class,
             UserSeeder::class,
-            UserSkillSeeder::class
-            
+            UserSkillSeeder::class,
+            ProjectSeeder::class,
+            AccademyProjectSeeder::class,
+            ProjectApplicationSeeder::class
         ]);
     }
 }

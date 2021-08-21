@@ -23,7 +23,7 @@ class CreateProjectApplicationsTable extends Migration
                 ->constrained()
                 ->onDelete('cascade');
             $table->longText('message');
-            $table->boolean('accepted')->default(0);
+            $table->boolean('accepted')->nullable()->default(NULL);
             $table->timestamps();
         });
     }

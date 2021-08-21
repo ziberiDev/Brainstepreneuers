@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\ProjectSkill;
+use App\Models\AccademyProject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProjectSkillFactory extends Factory
+class AccademyProjectFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ProjectSkill::class;
+    protected $model = AccademyProject::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class ProjectSkillFactory extends Factory
     public function definition()
     {
         return [
-            //
+             
         ];
     }
 }
