@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Accademy;
 use App\Models\User;
+use App\Models\Accademy;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Services\Auth;
 
-
+use App\Models\UserSkill;
 
 class AuthenticationService
 {
@@ -20,5 +20,28 @@ class AuthenticationService
             return $imageName;
         }
         return false;
+    }
+
+    /**
+     * Insert user skills into database
+     * 
+     * @param int  $userId "the id of the created user"
+     * @param array  $skills "the skills array from the request of the created user"
+     * 
+     * @return bool "on succes  true else false"
+     */
+    public function userSkills(int $userId, array $skills):bool
+    {
+        foreach ($skills as $skill_id) {
+            $userSkill =  UserSkill::create([
+                'user_id' => $userId,
+                'skill_id' => $skill_id
+            ]);
+
+            if (!$userSkill)
+                return false;
+        }
+
+        return true;
     }
 }

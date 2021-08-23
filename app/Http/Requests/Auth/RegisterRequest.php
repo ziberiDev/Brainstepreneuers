@@ -28,9 +28,10 @@ class RegisterRequest extends FormRequest
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
             'accademy_id'  => 'required|exists:accademies,id',
-            'biography' => 'required|string|min:20',
+            'biography' => 'required|string|min:5',
             'image' => 'nullable|image|mimes:jpg,jpeg,png',
             'email'  => 'required|string|email',
+            'skills|*' => 'required|exists:skills,id|min:5|max:10',
             'password' => 'required|string|min:8',
         ];
     }
