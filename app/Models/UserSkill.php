@@ -9,4 +9,5 @@ class UserSkill extends Model
 {
     use HasFactory;
     protected $guarded = false;
+
 }

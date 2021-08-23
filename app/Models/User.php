@@ -45,4 +45,40 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // eloquent realtions
+
+    /**
+     * User skills
+     */
+    public function skills()
+    {
+        return $this->hasMany(UserSkill::class);
+    }
+
+    /**
+     * User Created Projects
+     */
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * User Applications on projects
+     */
+
+    public function applications()
+    {
+        return $this->hasMany(ProjectApplication::class);
+    }
+    /**
+     * User Applications on projects
+     */
+
+    public function accademy()
+    {
+        return $this->belongsTo(Accademy::class);
+    }
 }

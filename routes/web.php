@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Resources\ProjectResource;
+use App\Http\Resources\UserResource;
+use App\Models\User;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return ProjectResource::collection(Project::all()->fresh(['owner' ,'applications']));
 });
 
 Route::get('/dashboard', function () {
