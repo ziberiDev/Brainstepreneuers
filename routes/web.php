@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Resources\ProjectResource;
-use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Project;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\ProjectResource;
+use Illuminate\Database\Eloquent\Builder;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return ProjectResource::collection(Project::all()->fresh(['owner' ,'applications']));
-});
+    
+     $a = Project::whereHas('accademies' , function(Builder $query) {
+         $query->where('accademy_id' , 2);
+     })->with('accademies')->get();
+return $a;
+    });
 
 Route::get('/dashboard', function () {
     return view('dashboard');

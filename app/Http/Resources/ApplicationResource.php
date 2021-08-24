@@ -16,7 +16,6 @@ class ApplicationResource extends JsonResource
     {
         return [
             'id' =>$this->id,
-            'project' => new ProjectResource($this->project),
             'message'=>$this->message,
             'accepted' =>$this->accepted
         ];

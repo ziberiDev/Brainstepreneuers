@@ -17,10 +17,10 @@ class ProjectResource extends JsonResource
         return [
             'id' => $this->id,
             'name' =>$this->name,
-            'owner' =>$this->owner->only(['first_name' , 'last_name' , 'accademy']),
+            'owner' =>$this->owner->only(['id' ,'first_name' , 'last_name' , 'accademy']),
             'description' => $this->description,
             'assebled' => $this->assebled,
-            'applications' => $this->applications
+            'applications' => ApplicationResource::collection($this->applications)
 
         ];
     }

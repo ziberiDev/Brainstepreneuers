@@ -23,8 +23,7 @@ class UserResource extends JsonResource
             'biography' =>$this->biography,
             'image' => asset("storage/images/{$this->image}"),
             'accademy' => new AccademyResource($this->accademy),
-            'projects' => ProjectResource::collection($this->projects),
-            'applications' => ApplicationResource::collection($this->applications->fresh('project'))
+          
         ];
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ApiAuth\AuthenticationController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +23,23 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
-
+    // logout
     Route::post('/logout', [AuthenticationController::class, 'logout']);
-Route::get('/user/{user}');
+
+    // User
+    Route::get('/me', [UserController::class, 'me']);
+    Route::get('/user/{user}', [UserController::class, 'index']);
+    Route::post('/me/update', [UserController::class, 'update']);
+
+    // User Projects
+    Route::get('/me/projects', [ProjectController::class, 'userprojects']);
+    Route::post('/user/project/create', [ProjectController::class, 'store']);
+    Route::get('/project/{project}/applications', [ProjectController::class, 'applications']);
+    Route::get('/project/{project}/apply', [ProjectController::class, 'apply']);
+
+    //Projects
+    Route::get('/projects/{accademy}' , [ProjectController::class , 'index']);
+    Route::get('/project/{project}', [ProjectController::class , 'show']);
+    Route::post('/project/{project}/update', [ProjectController::class, 'update']);
+    Route::delete('/project/{project}/delete', [ProjectController::class, 'delete']);
 });

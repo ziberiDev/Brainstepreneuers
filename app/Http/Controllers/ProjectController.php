@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Resources\ProjectResource;
 
 class ProjectController extends Controller
 {
@@ -24,18 +26,18 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CreateProjectRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateProjectRequest $request)
     {
-        //
+        // Create project and tie with accademy_projects (use service)
     }
 
     /**
@@ -81,5 +83,12 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    /**
+     * Get the Projects of specified user
+     */
+    public function userprojects() {
+        return ProjectResource::collection(Project::where('user_id' , auth()->user()->id)->with('owner')->get());
     }
 }

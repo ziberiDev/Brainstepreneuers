@@ -31,4 +31,12 @@ class Project extends Model
      public function applications(){
          return $this->hasMany(ProjectApplication::class);
      }
+
+    /**
+     * Project required accaedmies
+     */
+
+    public function accademies(){
+        return $this->hasMany(AccademyProject::class);
+    }
 }
