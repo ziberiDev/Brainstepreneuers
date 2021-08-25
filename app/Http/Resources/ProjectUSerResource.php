@@ -19,7 +19,7 @@ class ProjectUSerResource extends JsonResource
             'name' => $this->name,
             'owner' => $this->owner->only(['first_name', 'last_name', 'accademy']),
             'description' => $this->description,
-            'assebled' => $this->assebled
+            'assembled' => $this->assembled
         ];
     }
 }

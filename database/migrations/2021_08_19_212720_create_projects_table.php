@@ -22,7 +22,7 @@ class CreateProjectsTable extends Migration
 
             $table->string('name');
             $table->text('description');
-            $table->boolean('assebled')->default(0);
+            $table->boolean('assembled')->default(0);
             $table->timestamps();
         });
     }

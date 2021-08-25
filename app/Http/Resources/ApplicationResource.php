@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
+use App\Models\Accademy;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ApplicationResource extends JsonResource
@@ -14,10 +16,12 @@ class ApplicationResource extends JsonResource
      */
     public function toArray($request)
     {
+        $applicant = User::where('id' , $this->user_id)->with('accademy')->get();
         return [
             'id' =>$this->id,
             'message'=>$this->message,
-            'accepted' =>$this->accepted
+            'accepted' =>$this->accepted,
+            'applicant' =>  ApplicantResource::collection($applicant)
         ];
     }
 }

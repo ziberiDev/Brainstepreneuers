@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index(int $id)
     {
-        return new UserResource(User::with('accademy')->findOrFail($id));
+        return new UserResource(User::with('accademy', 'skills')->findOrFail($id));
     }
 
     /**
@@ -26,18 +26,11 @@ class UserController extends Controller
     public function me()
     {
 
-        return new UserResource(User::with('accademy')->findOrFail(auth()->user()->id));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return response()->json(
+            new UserResource(
+                User::with('accademy')->findOrFail(auth()->user()->id)
+            )
+        );
     }
 
     /**
@@ -51,16 +44,6 @@ class UserController extends Controller
         $user = User::findOrFail(auth()->user()->id);
 
         $user->update($request->all());
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+        // check if update and return response 
     }
 }

@@ -17,9 +17,15 @@ class ProjectResource extends JsonResource
         return [
             'id' => $this->id,
             'name' =>$this->name,
-            'owner' =>$this->owner->only(['id' ,'first_name' , 'last_name' , 'accademy']),
+            'owner' => [
+                'id' =>$this->owner->id,
+                'first_name' =>$this->owner->first_name,
+                'last_name' =>$this->owner->last_name,
+                'accademy' =>$this->owner->accademy,
+                'image' => asset("storage/images/{$this->owner->image}")
+            ],
             'description' => $this->description,
-            'assebled' => $this->assebled,
+            'assembled' => $this->assembled,
             'applications' => ApplicationResource::collection($this->applications)
 
         ];

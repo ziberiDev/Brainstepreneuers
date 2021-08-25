@@ -34,11 +34,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // User Projects
     Route::get('/me/projects', [ProjectController::class, 'userprojects']);
     Route::post('/user/project/create', [ProjectController::class, 'store']);
-    Route::get('/project/{project}/applications', [ProjectController::class, 'applications']);
-    Route::get('/project/{project}/apply', [ProjectController::class, 'apply']);
+    Route::post('/project/{id}/apply', [ProjectController::class, 'apply']);
+    Route::post('/project/{project}/assemble', [ProjectController::class, 'assemble']);
 
     //Projects
-    Route::get('/projects/{accademy}' , [ProjectController::class , 'index']);
+    Route::get('/projects/{accademy}' , [ProjectController::class , 'index']); // filter for all aprojects by accademy
     Route::get('/project/{project}', [ProjectController::class , 'show']);
     Route::post('/project/{project}/update', [ProjectController::class, 'update']);
     Route::delete('/project/{project}/delete', [ProjectController::class, 'delete']);

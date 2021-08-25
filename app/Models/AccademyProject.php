@@ -9,10 +9,16 @@ class AccademyProject extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'project_id',
+        'accademy_id',
+    ];
+
     /**
      * Accademy of the project
      */
-    public function accademy() {
+    public function accademy()
+    {
         return $this->belongsTo(Accademy::class);
     }
 }
