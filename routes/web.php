@@ -18,17 +18,13 @@ use Illuminate\Database\Eloquent\Builder;
 |
 */
 
-Route::get('/', function () {
-    
-     $a = Project::whereHas('accademies' , function(Builder $query) {
-         $query->where('accademy_id' , 2);
-     })->with('accademies')->get();
-return $a;
-    });
+Route::get('/{any?}', function () {
+    return view('welcome');
+});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
 
 
 

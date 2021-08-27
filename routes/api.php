@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ApiAuth\AuthenticationController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ApiAuth\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/project/{project}/assemble', [ProjectController::class, 'assemble']);
 
     //Projects
-    Route::get('/projects/{accademy}' , [ProjectController::class , 'index']); // filter for all aprojects by accademy
-    Route::get('/project/{project}', [ProjectController::class , 'show']);
+    Route::get('/projects/{accademy_id}/filter', [ProjectController::class, 'filter']);
+    Route::get('/project/{project}', [ProjectController::class, 'show']);
     Route::post('/project/{project}/update', [ProjectController::class, 'update']);
-    Route::delete('/project/{project}/delete', [ProjectController::class, 'delete']);
+    Route::delete('/project/{project}/delete', [ProjectController::class, 'destroy']);
+
+    // Applications
+    Route::delete('/application/{application}/cancel', [ApplicationController::class, 'cancel']);
+    Route::post('/application/{application}/accept', [ApplicationController::class, 'accept']);
 });

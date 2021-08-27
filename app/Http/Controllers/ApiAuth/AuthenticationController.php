@@ -72,7 +72,7 @@ class AuthenticationController extends Controller
     public function login(LoginRequest $request)
     {
         if (!Auth::attempt($request->all())) {
-            return $this->error('Credentials not match', 401);
+            return abort(401 ,'Credentials not match');
         }
         return response()->json([
             'auth_token' => auth()->user()->createToken('auth_token')->plainTextToken,

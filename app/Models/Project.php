@@ -37,6 +37,6 @@ class Project extends Model
      */
 
     public function accademies(){
-        return $this->hasMany(AccademyProject::class);
+        return $this->belongsToMany(Accademy::class,'accademy_projects');
     }
 }

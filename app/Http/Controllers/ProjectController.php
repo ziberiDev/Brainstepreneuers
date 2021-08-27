@@ -10,6 +10,9 @@ use App\Http\Resources\ProjectResource;
 use App\Http\Requests\ApplicationRequest;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\CreateProjectRequest;
+use App\Http\Requests\UpdateProjectrequest;
+use App\Http\Resources\ProjectFilterResource;
+use App\Models\AccademyProject;
 
 class ProjectController extends Controller
 {
@@ -26,13 +29,17 @@ class ProjectController extends Controller
         $this->service = $service;
     }
     /**
-     * Display a listing of the resource.
+     * Display a listing of the projects depending on requested accademies.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function filter($accademy_id)
     {
-        //
+        $projects = Project::whereHas('accademies', function (Builder $query) use ($accademy_id) {
+            $query->where('accademy_id', $accademy_id);
+        })->with('accademies', 'owner')->get();
+        // return $projects;
+        return ProjectFilterResource::collection($projects);
     }
     /**
      * Store a newly created resource in storage.
@@ -67,9 +74,29 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(CreateProjectRequest $request, Project $project)
     {
-       
+        $updated = $project->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        if ($updated) {
+            AccademyProject::where('project_id', $project->id)->delete();
+
+            collect(explode(",", trim($request->accademies, "[ ]")))->each(function ($accademy_id) use ($project) {
+                try {
+                    AccademyProject::create([
+                        'accademy_id' => $accademy_id,
+                        'project_id' => $project->id
+                    ]);
+                } catch (\Illuminate\Database\QueryException $th) {
+                    return abort(409, "Something went wrong");
+                }
+            });
+
+            return response('Project Updated');
+        }
+        return abort(409, "Something went wrong");
     }
 
     /**
@@ -80,7 +107,12 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        try {
+            $project->delete();
+            return response('Project deleted');
+        } catch (\LogicException $th) {
+            return abort(409, "Something went wrong");
+        }
     }
 
     /**

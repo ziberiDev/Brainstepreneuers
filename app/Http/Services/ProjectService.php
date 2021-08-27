@@ -49,14 +49,4 @@ class ProjectService
         return true;
     }
 
-    /**
-     * Assemble the given project
-     * 
-     */
-    public function assembleProject(Project $project)
-    {
-        $project->update([
-            'assembled' => 1
-        ]);
-    }
 }
