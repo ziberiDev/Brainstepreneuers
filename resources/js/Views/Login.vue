@@ -2,7 +2,7 @@
   <div class="container-fluid vh-100 bg-login">
     <div class="row vh-100">
       <div class="col-8 h-100">
-        <div class="height">
+        <div class="margin">
           <p class="fs-1 fw-bold me-4">
             <span class="black-font">Brainsters</span
             ><span class="gray-font">Preneuers</span>
@@ -42,8 +42,14 @@
             >
               Login
             </button>
+           <div class="mt-3">
+             <p>
+              Don't have an account, register <router-link to="/register">here</router-link>
+             </p>
+           </div>
           </div>
         </form>
+    
       </div>
     </div>
   </div>
@@ -55,9 +61,14 @@ export default {
     return {
       email: "",
       password: "",
+      bg_login:{
+
+      }
     };
   },
-  mounted() {},
+  mounted() {
+  
+  },
   methods: {
     login() {
       axios
@@ -67,16 +78,25 @@ export default {
         })
         .then((data) => console.log(data))
         .catch((err) => {
-      
-          this.$notify({
-            group: "error",
-            type: "error",
-            ignoreDuplicates: false,
-            max:4,
-            title: "Login failed",
-            text: `<ul><li>Message</li></ul>\n`,
-          });
+          console.log(err.response.data);
+          this.printErrorMessages(err.response.data);
         });
+    },
+    printErrorMessages(error) {
+      let errorMessages = "";
+      const messages = error.errors;
+      for (const key in messages) {
+        for (const message of messages[key]) {
+          errorMessages += `<li>${message}</li>`;
+        }
+      }
+      this.$notify({
+        group: "error",
+        type: "error",
+        ignoreDuplicates: true,
+        title: error.message,
+        text: `<ul>${errorMessages}</ul>`,
+      });
     },
   },
 };
@@ -94,13 +114,13 @@ input#email,
 input#password:focus {
   outline: none;
 }
-.height {
+.margin {
   margin: 200px;
 }
 .bg-login {
   background-image: url("../assets/bg-images/1.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
 }
 </style>>

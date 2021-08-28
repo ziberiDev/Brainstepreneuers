@@ -1,8 +1,7 @@
 <template>
   <div class="app">
-    <notifications  position="top center" group="error" />
-
-    <!-- <NavBar></NavBar> -->
+    <notifications position="center" group="error" />
+     <NavBar  v-if="this.$route.name != 'login' && this.$route.name != 'register'"></NavBar>
     <router-view></router-view>
   </div>
 </template>
@@ -13,11 +12,13 @@ export default {
   components: {
     NavBar,
   },
+  mounted() {
+    
+  },
+  methods: {
+    
+  },
 };
 </script>
 <style scoped>
-.my-warning-notification {
-background-color: tomato;
-
-}
 </style>
