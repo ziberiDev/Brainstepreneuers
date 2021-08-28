@@ -4,8 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap');
-
 import Vue from 'vue'
+import Notifications from 'vue-notification'
 import VueRouter from 'vue-router'
 import router from './Router/router'
 import App from './App.vue'
@@ -14,6 +14,8 @@ Vue.component('app' , require('./App.vue').default)
 // window.Vue = require('vue').default;
 
 Vue.use(VueRouter);
+Vue.use(Notifications)
+
 
 new Vue({
     el: "#app",

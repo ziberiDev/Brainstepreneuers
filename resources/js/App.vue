@@ -1,5 +1,7 @@
 <template>
   <div class="app">
+    <notifications  position="top center" group="error" />
+
     <!-- <NavBar></NavBar> -->
     <router-view></router-view>
   </div>
@@ -13,3 +15,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+.my-warning-notification {
+background-color: tomato;
+
+}
+</style>
