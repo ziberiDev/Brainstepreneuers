@@ -16,14 +16,15 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId("accademy_id")
+            $table->foreignId("accademy_id")->nullable()
                 ->constrained()
                 ->onDelete('cascade');
-                
+            $table->enum('step', [1, 2, 3])->default(1);
+            $table->boolean('registered')->default(0);
             $table->string('first_name');
             $table->string('last_name');
-            $table->longText('biography');
-            $table->string('image');
+            $table->longText('biography')->nullable();
+            $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

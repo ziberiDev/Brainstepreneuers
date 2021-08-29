@@ -1,9 +1,35 @@
   .orange-bg {
-      background-color: #DD7F1E;
+      background-color: #dd7f1e;
   }
+
   .black-font {
       color: #314158;
   }
+
+  .bg-green {
+      background-color: #48695c;
+  }
+
   .gray-font {
-  color: #A6A6A6;
+      color: #949d99;
+  }
+  .bg-main{
+      background-color: #F6F6F6;
+  }
+
+  input {
+      font-size: 20px;
+      border: none;
+      background-color: transparent;
+      border-bottom: 5px solid black;
+      border-radius: 5%;
+  }
+
+  input, textarea:focus {
+      outline: none;
+  }
+
+  textarea {
+      background-color: transparent;
+      border: 0;
   }

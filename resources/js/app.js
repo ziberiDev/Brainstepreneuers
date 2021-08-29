@@ -8,6 +8,7 @@ import Vue from 'vue'
 import Notifications from 'vue-notification'
 import VueRouter from 'vue-router'
 import router from './Router/router'
+import store from './store'
 import App from './App.vue'
 Vue.component('app' , require('./App.vue').default)
 
@@ -20,6 +21,7 @@ Vue.use(Notifications)
 new Vue({
     el: "#app",
     router,
+    store,
     commponents: {App}
 })
 

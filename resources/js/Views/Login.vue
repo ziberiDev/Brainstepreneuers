@@ -42,14 +42,14 @@
             >
               Login
             </button>
-           <div class="mt-3">
-             <p>
-              Don't have an account, register <router-link to="/register">here</router-link>
-             </p>
-           </div>
+            <div class="mt-3">
+              <p>
+                Don't have an account, register
+                <router-link to="/register">here</router-link>
+              </p>
+            </div>
           </div>
         </form>
-    
       </div>
     </div>
   </div>
@@ -61,13 +61,11 @@ export default {
     return {
       email: "",
       password: "",
-      bg_login:{
-
-      }
     };
   },
   mounted() {
-  
+       
+
   },
   methods: {
     login() {
@@ -76,10 +74,20 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then((data) => console.log(data))
+        .then((data) => {
+          console.log(data)
+       
+          console.dir(window.axios);
+          // get token
+          // check step on registering and redirect to certen step
+          //steps?step=3
+        })
         .catch((err) => {
-          console.log(err.response.data);
-          this.printErrorMessages(err.response.data);
+          if (err) {
+            console.log(err);
+            
+            this.printErrorMessages(err.response.data);
+          }
         });
     },
     printErrorMessages(error) {
@@ -102,18 +110,7 @@ export default {
 };
 </script>
 <style scoped>
-input#email,
-input#password {
-  font-size: 20px;
-  border: none;
-  background-color: transparent;
-  border-bottom: 5px solid black;
-  border-radius: 5%;
-}
-input#email,
-input#password:focus {
-  outline: none;
-}
+
 .margin {
   margin: 200px;
 }
