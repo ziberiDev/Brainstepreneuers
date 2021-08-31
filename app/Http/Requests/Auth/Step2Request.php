@@ -24,7 +24,7 @@ class Step2Request extends FormRequest
     public function rules()
     {
         return [
-            'skills|*' => 'required|exists:skills,id|min:5|max:10',
+            'skills' => 'required|exists:skills,id|min:4|max:10',
 
         ];
     }

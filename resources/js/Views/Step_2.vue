@@ -46,7 +46,9 @@
         </div>
       </div>
       <div class="col-11">
-        <Button class="mt-5 float-end">Next</Button>
+        <Button @click.native="updateUserSkills()" class="mt-5 float-end"
+          >Next</Button
+        >
       </div>
     </div>
   </div>
@@ -109,6 +111,26 @@ export default {
       clickedElement.classList.toggle("bg-green");
       clickedElement.classList.toggle("bg-light");
       clickedElement.classList.toggle("text-light");
+    },
+    updateUserSkills() {
+      console.log(this.selectedSkills.length);
+      if (this.selectedSkills.length >= 4 && this.selectedSkills.length <= 10) {
+        this.$store
+          .dispatch("updateUserSkills", this.selectedSkills)
+          .then((data) => {
+            this.$router.replace("step_3");
+
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        this.$notify({
+          group: "error",
+          type: "error",
+          title: "Please seletct between 4 and 10 skills",
+        });
+      }
     },
   },
 };

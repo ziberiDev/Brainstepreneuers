@@ -54,6 +54,16 @@ const actions = {
         }).catch(error => {
             reject(error)
         })
+    },
+    updateUserSkills: async ({ commit }, skills) => {
+        try {
+            const data = await axios.post(location.origin + '/api/step-2', {
+                skills: skills
+            });
+            return data;
+        } catch (error) {
+            return error;
+        }
     }
 }
 

@@ -70,7 +70,7 @@ export default {
           .post(location.origin + "/api/step-1", {
             accademy_id: this.selected_accademy,
           })
-          .then((data) => {
+          .then(() => {
             this.$router.replace("step_2");
           })
           .catch((err) => err);
