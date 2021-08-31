@@ -93,7 +93,6 @@ class ProjectController extends Controller
                     return abort(409, "Something went wrong");
                 }
             });
-
             return response('Project Updated');
         }
         return abort(409, "Something went wrong");

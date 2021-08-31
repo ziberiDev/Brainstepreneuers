@@ -63,9 +63,11 @@ export default {
       password: "",
     };
   },
-  mounted() {
-       
-
+  mounted() {},
+  computed: {
+    me() {
+      return this.$store.state.me;
+    },
   },
   methods: {
     login() {
@@ -75,17 +77,18 @@ export default {
           password: this.password,
         })
         .then((data) => {
-          console.log(data)
-       
-          console.dir(window.axios);
-          // get token
-          // check step on registering and redirect to certen step
-          //steps?step=3
+          console.log(data);
+          this.$store.dispatch("getMe").then(() => {
+           if (!this.me.registered) {
+            this.$router.replace('/step_' + this.me.step)
+          }
+
+          })
         })
         .catch((err) => {
           if (err) {
             console.log(err);
-            
+
             this.printErrorMessages(err.response.data);
           }
         });
@@ -110,7 +113,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .margin {
   margin: 200px;
 }

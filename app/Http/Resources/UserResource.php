@@ -24,7 +24,9 @@ class UserResource extends JsonResource
             'biography' =>$this->biography,
             'image' => asset("storage/images/{$this->image}"),
             'accademy' => new AccademyResource($this->accademy),
-            "skills" => SkillResource::collection($this->skills)
+            "skills" => SkillResource::collection($this->skills),
+            'registered' => $this->registered,
+            'step' => $this->step
           
         ];
     }

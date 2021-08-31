@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     //skills
     Route::get('/skills', function () {
-        SkillResource::collection(Skill::all());
+        return response()->json(SkillResource::collection(Skill::all()));
     });
     // logout
     Route::post('/logout', [AuthenticationController::class, 'logout']);
