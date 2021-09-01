@@ -79,11 +79,11 @@ export default {
         .then((data) => {
           console.log(data);
           this.$store.dispatch("getMe").then(() => {
-           if (!this.me.registered) {
-            this.$router.replace('/step_' + this.me.step)
-          }
-
-          })
+            if (!this.me.registered) {
+              this.$router.replace("/step_" + this.me.step);
+            }
+            this.$router.push({ name: "home" });
+          });
         })
         .catch((err) => {
           if (err) {

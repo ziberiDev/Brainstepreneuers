@@ -33,3 +33,11 @@
       background-color: transparent;
       border: 0;
   }
+  /* line  */
+  .line {
+    display: inline-block;
+    margin: 2px 15px;
+    width: 60%;
+    height: 4px;
+    border-radius: 2px;
+  }

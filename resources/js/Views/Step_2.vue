@@ -1,9 +1,12 @@
 <template>
   <div class="bg-main vh-100">
-    <div class="container">
-      <div class="row custom-height">
-        <div class="col-10 d-flex align-items-center">
-          <p class="fs-1">Skills</p>
+     <div class="container-fluid">
+      <div class="row position-fixed start-0 end-0">
+        <div class="col-10 mx-auto my-5">
+          <div class="fs-1 fw-bold">
+            <span>Skills</span>
+            <div class="line orange-bg"></div>
+          </div>
         </div>
       </div>
     </div>

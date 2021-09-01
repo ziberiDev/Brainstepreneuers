@@ -29,6 +29,9 @@ const mutations = {
     },
     SET_SKILLS: (state, payload) => {
         Vue.set(state, 'skills', payload)
+    },
+    SET_PROJECTS: (state, payload) => {
+        Vue.set(state, 'projects', payload)
     }
 }
 const actions = {
@@ -38,6 +41,11 @@ const actions = {
         }).catch(error => {
             reject(error);
         });
+    },
+    getAllProjects({ commit }) {
+        axios.get(location.origin + '/api/projects').then(data => {
+            commit('SET_PROJECTS', data.data)
+        }).catch(err => reject(err))
     },
 
     getMe: async ({ commit }) => {

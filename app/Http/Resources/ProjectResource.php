@@ -26,7 +26,7 @@ class ProjectResource extends JsonResource
             ],
             'description' => $this->description,
             'assembled' => $this->assembled,
-            'applications' => ApplicationResource::collection($this->applications)
+            'applications' => $this->applications ? ApplicationResource::collection($this->applications) : null
 
         ];
     }

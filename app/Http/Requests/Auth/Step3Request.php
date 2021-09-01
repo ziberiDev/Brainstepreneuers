@@ -13,7 +13,7 @@ class Step3Request extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class Step3Request extends FormRequest
     public function rules()
     {
         return [
-            'image' => 'required|image|mimes:jpg,jpeg,png',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:1000',
 
         ];
     }

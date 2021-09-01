@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app vh-100 bg-main">
     <notifications position="center" group="error" />
     <NavBar
       v-if="

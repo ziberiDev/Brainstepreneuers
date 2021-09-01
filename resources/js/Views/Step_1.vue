@@ -1,5 +1,14 @@
 <template>
   <div class="container-fluid vh-100 bg-main">
+    <div class="row position-fixed start-0 end-0">
+      <div class="col-10 mx-auto my-5">
+        <div class="fs-1 fw-bold">
+          <span>Accademies</span>
+          <div class="line orange-bg"></div>
+        </div>
+      </div>
+    </div>
+
     <div
       class="
         row

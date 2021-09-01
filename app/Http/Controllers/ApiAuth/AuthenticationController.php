@@ -12,7 +12,7 @@ use Illuminate\Contracts\Cache\Store;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\Step1Request;
 use App\Http\Requests\Auth\Step2Request;
-use phpDocumentor\Reflection\Types\Void_;
+use App\Http\Requests\Auth\Step3Request;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Services\Auth\AuthenticationService;
 
@@ -100,7 +100,7 @@ class AuthenticationController extends Controller
 
         $user->update([
             'accademy_id' => $request->accademy_id,
-            'step' => 1
+            'step' => 2
         ]);
 
         return response('accademy set');
@@ -115,8 +115,22 @@ class AuthenticationController extends Controller
         //  return response()->json(var_dump($user));
 
         $user->update([
-            'step' => 2
+            'step' => 3
         ]);
         return response('Skills set');
+    }
+    public function step_3(Step3Request $request)
+    {
+        // return $request->all();
+        $user = auth()->user();
+        $imagepath = $this->service->uploadImage($request->image);
+        if (!$imagepath) {
+            return response("image Upload failed", 400);
+        };
+        $user->update([
+            'image' => $imagepath,
+            'registered' => 1
+        ]);
+        return response('Image uploaded set');
     }
 }
