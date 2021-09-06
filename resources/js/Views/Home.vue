@@ -2,35 +2,19 @@
   <div class="container-fluid bg-home">
     <div class="row">
       <div class="col-4">
-        <div class="row mx-5 g-3 row-cols-2">
-          <div class="col text-center">
-            <div
-              class="
-                btn
-                d-flex
-                justify-content-center
-                align-items-center
-                accademy-btn
-                bg-light
-              "
-            >
-              All
-            </div>
-          </div>
-          <Accademy
-            v-for="accademy in accademies"
-            v-bind:key="accademy.id"
-            :accademy="accademy"
+        
+          <ProjectsFilter
+           :accademies="accademies"
           >
-          </Accademy>
-        </div>
+          </ProjectsFilter>
+        
       </div>
       <div class="col-8">
         <div class="row projects-container row-cols-1">
           <Project
             class="my-5"
-            v-for="project in projects"
-            :key="project.id"
+            v-for="(project , index) in projects"
+            :key="index + 'project'"
             :project="project"
           >
           </Project>
@@ -40,15 +24,17 @@
   </div>
 </template>
 <script>
-import Accademy from "../components/Accademy.vue";
+// import AccademyButton from "../components/AccademyButton.vue";
+
 import Project from "../components/Project.vue";
+import ProjectsFilter from '../components/ProjectsFilter.vue';
 export default {
   data() {
     return {};
   },
   components: {
-    Accademy,
     Project,
+    ProjectsFilter,
   },
   computed: {
     accademies() {
@@ -66,11 +52,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.accademy-btn {
-  width: 75%;
-  padding: 20px 0;
-  margin: 0 auto;
-}
 .bg-home {
   height: 87.5vh;
   background-image: url("../assets/bg-images/3.jpg");

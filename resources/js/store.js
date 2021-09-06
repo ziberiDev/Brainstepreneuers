@@ -16,6 +16,9 @@ const state = {
     },
     skills: {
 
+    },
+    projects: {
+
     }
 
 }
@@ -48,6 +51,15 @@ const actions = {
         }).catch(err => reject(err))
     },
 
+    getProjectsByAccademy({ commit }, accademyID) {
+        axios.get(location.origin + '/api/projects/' + accademyID + '/filter').then(data => {
+            console.log(data)
+            commit('SET_PROJECTS', data.data)
+        }).catch(err => {
+            resolve(err)
+        })
+    },
+
     getMe: async ({ commit }) => {
         try {
             const data = await axios.get(location.origin + '/api/me');
@@ -72,7 +84,7 @@ const actions = {
         } catch (error) {
             return error;
         }
-    }
+    },
 }
 
 export default new Vuex.Store({

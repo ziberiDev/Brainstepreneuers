@@ -37,9 +37,12 @@ class ProjectController extends Controller
     {
         $projects = Project::whereHas('accademies', function (Builder $query) use ($accademy_id) {
             $query->where('accademy_id', $accademy_id);
-        })->with('accademies', 'owner')->get();
+        })
+            ->where('user_id', "!=", auth()->user()->id)
+            ->with('accademies', 'owner')
+            ->get();
         // return $projects;
-        return ProjectFilterResource::collection($projects);
+        return response()->json(ProjectFilterResource::collection($projects));
     }
     /**
      * Store a newly created resource in storage.

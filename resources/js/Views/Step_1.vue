@@ -18,7 +18,7 @@
         align-items-center
       "
     >
-      <div class="col" v-for="accademy in accademies" v-bind:key="accademy.id">
+      <div class="col" v-for="accademy in accademies" v-bind:key="accademy">
         <div
           @click="setAccademy(accademy.id, $event)"
           class="
