@@ -79,35 +79,18 @@ export default {
         .then((data) => {
           console.log(data);
           this.$store.dispatch("getMe").then(() => {
-            if (!this.me.registered) {
+            if (this.me.registered == 0) {
               this.$router.replace("/step_" + this.me.step);
+            } else {
+              this.$router.push({ name: "home" });
             }
-            this.$router.push({ name: "home" });
           });
         })
         .catch((err) => {
           if (err) {
-            console.log(err);
-
-            this.printErrorMessages(err.response.data);
+            this.$errorMessage(err.response.data);
           }
         });
-    },
-    printErrorMessages(error) {
-      let errorMessages = "";
-      const messages = error.errors;
-      for (const key in messages) {
-        for (const message of messages[key]) {
-          errorMessages += `<li>${message}</li>`;
-        }
-      }
-      this.$notify({
-        group: "error",
-        type: "error",
-        ignoreDuplicates: true,
-        title: error.message,
-        text: `<ul>${errorMessages}</ul>`,
-      });
     },
   },
 };

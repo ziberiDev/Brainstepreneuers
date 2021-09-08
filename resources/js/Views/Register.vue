@@ -80,7 +80,7 @@ export default {
           biography: this.biography,
         })
         .then((response) => {
-          this.$router.replace("/steps?step=1");
+            this.$router.push({ name: "step_1" });
         })
         .catch((err) => {
           if (err) {

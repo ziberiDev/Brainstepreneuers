@@ -52,6 +52,8 @@ export default {
       this.$store.dispatch("getProjectsByAccademy", accademyId);
     },
     selectAccademy(event) {
+      let container = document.getElementById('projects-container');
+      container.scroll({top:0 , behavior: 'smooth'});
       let accademy_btn = document.querySelectorAll(".accademy-btn");
       accademy_btn.forEach((element) => {
         element.classList.add("bg-light");

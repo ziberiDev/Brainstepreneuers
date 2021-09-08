@@ -1,19 +1,17 @@
 <template>
-  <div class="container-fluid bg-home">
+  <div class="container-fluid bg-home position-relative">
     <div class="row">
       <div class="col-4">
-        
-          <ProjectsFilter
-           :accademies="accademies"
-          >
-          </ProjectsFilter>
-        
+        <div class="text-center pt-5">
+          <p class="fs-4 fw-bolder">In what field can you be amazing?</p>
+        </div>
+        <ProjectsFilter class="pt-5" :accademies="accademies"> </ProjectsFilter>
       </div>
       <div class="col-8">
-        <div class="row projects-container row-cols-1">
+        <div id="projects-container" class="row projects-container row-cols-1">
           <Project
             class="my-5"
-            v-for="(project , index) in projects"
+            v-for="(project, index) in projects"
             :key="index + 'project'"
             :project="project"
           >
@@ -27,7 +25,7 @@
 // import AccademyButton from "../components/AccademyButton.vue";
 
 import Project from "../components/Project.vue";
-import ProjectsFilter from '../components/ProjectsFilter.vue';
+import ProjectsFilter from "../components/ProjectsFilter.vue";
 export default {
   data() {
     return {};
@@ -62,7 +60,7 @@ export default {
 .projects-container {
   padding: 50px 0;
   overflow-y: scroll;
-  height: 600px;
+  height: 80vh;
   &::-webkit-scrollbar {
     display: none;
   }

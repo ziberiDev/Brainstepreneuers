@@ -4,6 +4,7 @@ use App\Models\Skill;
 use App\Models\Project;
 use App\Models\Accademy;
 use Illuminate\Http\Request;
+use App\Models\ProjectApplication;
 use App\Http\Resources\SkillResource;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\ProjectResource;
@@ -46,7 +47,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     //all projects
     Route::get('projects', function () {
-        return response()->json(ProjectFilterResource::collection(Project::all()->fresh(['owner' , 'accademies'])));
+        return response()->json(ProjectFilterResource::collection(Project::all()->fresh(['owner', 'accademies'])));
     });
 
     // logout
