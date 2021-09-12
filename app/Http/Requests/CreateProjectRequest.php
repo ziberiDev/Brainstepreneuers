@@ -25,8 +25,8 @@ class CreateProjectRequest extends FormRequest
     {
         return [
            'name' => 'required|string|min:10|max:50',
-           'description' => 'required|string|min:10|max:250',
-           'accademies|*' => 'required|exists:accademies,id|min:1|max:4'     
+           'description' => 'required|string|min:10|max:450',
+           'accademies' => 'required|exists:accademies,id|min:1|max:4'     
         ];
     }
 }

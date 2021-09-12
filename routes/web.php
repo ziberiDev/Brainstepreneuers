@@ -18,9 +18,9 @@ use Illuminate\Database\Eloquent\Builder;
 |
 */
 
-Route::get('/{any?}', function () {
+Route::get('/{vue_capture?}', function () {
     return view('welcome');
-});
+})->where('vue_capture', '[\/\w\.-]*');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

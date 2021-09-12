@@ -1,7 +1,13 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light nav-border">
+  <nav
+    id="navbar"
+    class="navbar navbar-expand-lg navbar-light bg-light nav-border"
+  >
     <div class="container-fluid">
-      <router-link class="navbar-brand fs-2" :to="{name:'home'}"><span class="black-font">Brainster</span><span class="gray-font">Prenesuers</span></router-link>
+      <router-link class="navbar-brand fs-2" :to="{ name: 'home' }"
+        ><span class="black-font">Brainster</span
+        ><span class="gray-font">Prenesuers</span></router-link
+      >
       <button
         class="navbar-toggler"
         type="button"
@@ -13,34 +19,55 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-        <ul v-if="this.$route.name == 'profile'" class="navbar-nav  w-100 justify-content-end me-4 mb-2 mb-lg-0">
+      <div
+        class="collapse navbar-collapse justify-content-end"
+        id="navbarSupportedContent"
+      >
+        <ul
+          v-if="this.$route.name == 'MyProfile'"
+          class="navbar-nav w-100 justify-content-end me-4 mb-2 mb-lg-0"
+        >
           <li class="nav-item">
             <router-link
               class="text-dark text-decoration-none fw-bold fs-4"
-              :to="{ name: 'login' }"
+              :to="{ name: 'MyProfile', params: { page: 'projects' } }"
+              :class="this.$route.params.page == 'projects' ? 'text-muted' : ''"
               >My Projects</router-link
             >
           </li>
           <li class="nav-item">
             <router-link
               class="text-dark text-decoration-none fw-bold fs-4"
-              :to="{ name: 'login' }"
+              :to="{ name: 'MyProfile', params: { page: 'applications' } }"
+              :class="
+                this.$route.params.page == 'applications' ? 'text-muted' : ''
+              "
               >My Applications</router-link
             >
           </li>
           <li class="nav-item">
             <router-link
               class="text-dark text-decoration-none fw-bold fs-4"
-              :to="{ name: 'login' }"
+              :to="{ name: 'MyProfile', params: { page: 'profile' } }"
+              :class="this.$route.params.page == 'profile' ? 'text-muted' : ''"
               >My Profile</router-link
             >
           </li>
         </ul>
-        <div class="float-end">
+      </div>
+    </div>
+    <div>
+      <router-link :to="{ name: 'MyProfile', params: { page: 'projects' } }">
+        <div
+          @mouseover="logout = true"
+          @mouseleave="logout = false"
+          class="float-end me-5 mx-sm-auto"
+        >
           <img class="user-image" :src="this.me.image" alt="user image" />
         </div>
-        <div></div>
+      </router-link>
+      <div class="position-absolute logout-btn" v-if="logout">
+        <p>Logout</p>
       </div>
     </div>
   </nav>
@@ -52,6 +79,7 @@ export default {
   data() {
     return {
       name: "Denis",
+      logout: false,
     };
   },
   computed: {
@@ -61,6 +89,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getMe");
+    this.$store.dispatch("getAccademies");
   },
 };
 </script>
@@ -79,5 +108,8 @@ export default {
   .nav-item {
     margin: 0 25px;
   }
+}
+.logout-btn {
+  bottom: 50px;
 }
 </style>

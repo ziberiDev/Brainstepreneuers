@@ -37,11 +37,11 @@ class ProjectController extends Controller
     {
         $projects = Project::whereHas('accademies', function (Builder $query) use ($accademy_id) {
             $query->where('accademy_id', $accademy_id);
+            $query->where('user_id', '!=', auth()->user()->id);
         })
-            ->where('user_id', "!=", auth()->user()->id)
             ->with('accademies', 'owner')
             ->get();
-        // return $projects;
+
         return response()->json(ProjectFilterResource::collection($projects));
     }
     /**
@@ -54,8 +54,8 @@ class ProjectController extends Controller
     {
         // Create project and tie with accademy_projects (use service)
 
-        if ($this->service->createProject($request)) {
-            return response()->json(['message' => 'Project Created']);
+        if ($project = $this->service->createProject($request)) {
+            return response()->json(['message' => 'Project Created', 'project' => $project]);
         }
         return abort(409, 'could not create project.');
     }
@@ -122,9 +122,10 @@ class ProjectController extends Controller
      */
     public function userprojects()
     {
-        return ProjectResource::collection(Project::where('user_id', auth()->user()->id)
-            ->with('owner')
+        $myProjects = ProjectFilterResource::collection(Project::where('user_id', auth()->user()->id)
+            ->with('owner', 'accademies')
             ->get());
+        return response()->json($myProjects);
     }
 
     /**

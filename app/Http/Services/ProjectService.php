@@ -6,15 +6,16 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\AccademyProject;
 use Illuminate\Support\Collection;
-use App\Http\Requests\CreateProjectRequest;
-
+use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectFilterResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectService
 {
     /**
      * Create project and tie accademies
      */
-    public function createProject(Request $request): bool
+    public function createProject(Request $request):AnonymousResourceCollection|false
     {
         try {
             $project = Project::create([
@@ -23,8 +24,10 @@ class ProjectService
                 'description' => $request->description,
 
             ]);
-            $accademies = $this->projectAccademiesRelation($project->id, collect(explode(",", $request->accademies)));
-            return true;
+            $accademies = $this->projectAccademiesRelation($project->id, collect($request->accademies));
+            return  ProjectResource::collection(Project::where('id', $project->id)
+                ->with('accademies', 'owner', 'applications')
+                ->get());
         } catch (\Illuminate\Database\QueryException $th) {
             return false;
         }
@@ -48,5 +51,4 @@ class ProjectService
 
         return true;
     }
-
 }

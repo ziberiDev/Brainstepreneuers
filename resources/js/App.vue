@@ -24,18 +24,11 @@ export default {
   },
   data() {
     return {
-      //
+     
     };
   },
-  mounted() {
-    console.log(location);
-  },
-  computed: {
-    currentRoute() {
-      //  return router.history.getCurrentLocation()
-      return this.$router.history.getCurrentLocation();
-    },
-  },
+  mounted() {},
+  computed: {},
   methods: {},
 };
 </script>

@@ -14,6 +14,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Resources\ProjectFilterResource;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ApiAuth\AuthenticationController;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Resources\ProjectFilterCollection;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     //all projects
     Route::get('projects', function () {
-        return response()->json(ProjectFilterResource::collection(Project::all()->fresh(['owner', 'accademies'])));
+
+        return ProjectFilterResource::collection(Project::where('user_id', '!=', auth()->user()->id)
+            ->with(['owner', 'accademies'])->paginate(4));
     });
 
     // logout
