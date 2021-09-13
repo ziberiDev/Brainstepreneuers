@@ -1,48 +1,54 @@
-
-
 .orange-bg {
-      background-color: #dd7f1e;
-  }
-  .text-orange {
-      color: #dd7f1e;
-  }
+    background-color: #dd7f1e;
+}
 
-  .black-font {
-      color: #314158;
-  }
+.text-orange {
+    color: #dd7f1e;
+}
 
-  .bg-green {
-      background-color: #48695c;
-  }
+.text-green {
+    color: #48695c !important;
+}
 
-  .gray-font {
-      color: #949d99;
-  }
-  .bg-main{
-      background-color: #F6F6F6;
-  }
+.black-font {
+    color: #314158;
+}
 
-  input {
-      font-size: 20px;
-      border: none;
-      background-color: transparent;
-      border-bottom: 5px solid black;
-      border-radius: 5%;
-  }
+.bg-green {
+    background-color: #48695c;
+}
 
-  input, textarea:focus {
-      outline: none;
-  }
+.gray-font {
+    color: #949d99;
+}
 
-  textarea {
-      background-color: transparent;
-      border: 0;
-  }
-  /* line  */
-  .line {
+.bg-main {
+    background-color: #F6F6F6;
+}
+
+input {
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    border-bottom: 5px solid black;
+    border-radius: 5%;
+}
+
+input, textarea:focus {
+    outline: none;
+}
+
+textarea {
+    background-color: transparent;
+    border: 0;
+}
+
+/* line  */
+
+.line {
     display: inline-block;
     margin: 2px 15px;
     width: 60%;
     height: 4px;
     border-radius: 2px;
-  }
+}

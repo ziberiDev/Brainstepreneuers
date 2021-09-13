@@ -39,10 +39,11 @@ class ProjectController extends Controller
             $query->where('accademy_id', $accademy_id);
             $query->where('user_id', '!=', auth()->user()->id);
         })
+            ->latest()
             ->with('accademies', 'owner')
-            ->get();
+            ->paginate(8);
 
-        return response()->json(ProjectFilterResource::collection($projects));
+        return ProjectFilterResource::collection($projects);
     }
     /**
      * Store a newly created resource in storage.

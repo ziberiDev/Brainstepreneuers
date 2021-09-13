@@ -16,16 +16,17 @@
             :project="project"
           >
           </Project>
+          <Pagination :pagination="pagination"> </Pagination>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import AccademyButton from "../components/AccademyButton.vue";
-
+import Pagination from "../components/Pagination.vue";
 import Project from "../components/Project.vue";
 import ProjectsFilter from "../components/ProjectsFilter.vue";
+
 export default {
   data() {
     return {};
@@ -33,6 +34,7 @@ export default {
   components: {
     Project,
     ProjectsFilter,
+    Pagination,
   },
   computed: {
     accademies() {
@@ -40,6 +42,9 @@ export default {
     },
     projects() {
       return this.$store.state.projects;
+    },
+    pagination() {
+      return this.$store.state.pagination;
     },
   },
   mounted() {

@@ -26,8 +26,9 @@ const state = {
     projects: {
 
     },
+    pagination: {
 
-
+    }
 
 }
 
@@ -48,9 +49,23 @@ const mutations = {
         Vue.set(state.me, 'projects', payload)
     },
     UPDATE_MY_PROJECTS: (state, payload) => {
-        let key = state.me.projects.length + 1
-        // Vue.set(state.me , "projects" + [key] , payload)
         state.me.projects.push(payload)
+    },
+    SET_PAGINATION: (state, payload) => {
+        Vue.set(state, 'pagination', payload)
+    },
+    DELETE_MY_PROJECT: (state, Pid) => {
+
+        try {
+            for (const key of state.me.projects) {
+                if (key.id == Pid) {
+                    state.me.projects.splice(key, 1)
+                    return
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 const actions = {
@@ -64,7 +79,7 @@ const actions = {
             return res
         } catch (err) {
             if (err) {
-               return err.response
+                return err.response
             }
         }
     },
@@ -78,7 +93,8 @@ const actions = {
     getAllProjects({ commit }) {
         axios.get(location.origin + '/api/projects').then(data => {
             commit('SET_PROJECTS', data.data.projects)
-           
+            commit('SET_PAGINATION', data.data.meta)
+
 
         }).catch(err => reject(err))
     },
@@ -86,7 +102,8 @@ const actions = {
     getProjectsByAccademy({ commit }, accademyID) {
         axios.get(location.origin + '/api/projects/' + accademyID + '/filter').then(data => {
             console.log(data)
-            commit('SET_PROJECTS', data.data)
+            commit('SET_PROJECTS', data.data.projects)
+            commit('SET_PAGINATION', data.data.meta)
         }).catch(err => {
             resolve(err)
         })
@@ -125,6 +142,17 @@ const actions = {
             return error;
         }
     },
+    deleteProject: ({ commit }, projectID) => {
+
+        axios.delete(`/api/project/${projectID}/delete`).then(data => {
+            commit('DELETE_MY_PROJECT', projectID);
+        }).catch(err => {
+            reject(err)
+        })
+
+
+
+    }
 }
 
 export default new Vuex.Store({

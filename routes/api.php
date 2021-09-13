@@ -50,8 +50,14 @@ Route::middleware('auth:sanctum')->group(function () {
     //all projects
     Route::get('projects', function () {
 
-        return ProjectFilterResource::collection(Project::where('user_id', '!=', auth()->user()->id)
-            ->with(['owner', 'accademies'])->paginate(4));
+        return ProjectFilterResource::collection(
+            Project::where('user_id', '!=', auth()->user()->id)
+                ->latest()
+                ->with(['owner', 'accademies'])
+                ->paginate(8)
+
+
+        );
     });
 
     // logout

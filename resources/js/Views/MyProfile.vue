@@ -11,6 +11,10 @@ export default {
       this.page = page;
       console.log(this.page);
     },
+    "this.$store.state.me.projects": function(projects) {
+      this.myProjects=projects;
+    },
+   
   },
   data() {
     return {
@@ -25,8 +29,8 @@ export default {
       return this.$store.state.me;
     },
     myProjects() {
-      return this.$store.state.me.projects
-    }
+      return this.$store.state.me.projects;
+    },
   },
   mounted() {
     this.$store.dispatch("getMyProjects");

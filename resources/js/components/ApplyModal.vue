@@ -71,6 +71,7 @@ export default {
         })
         .then((res) => {
           this.$store.dispatch("getAllProjects");
+          this.message = "";
           this.modal.hide();
           this.$notify({
             group: "error",

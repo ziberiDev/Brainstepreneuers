@@ -59,7 +59,7 @@
               class="project-description"
               :class="[!readMore ? 'active' : 'inactive']"
             >
-              {{ project.description.slice(0, 300) + "..." }}
+              {{ project.description.slice(0, 200) + "..." }}
             </p>
             <p
               class="project-description"
@@ -139,8 +139,13 @@ export default {
           return accademyName;
       }
     },
-    deleteProject(projectID) {},
-    editProject(projectID) {},
+    deleteProject(projectID) {
+      console.log("deleted");
+      this.$store.dispatch("deleteProject", projectID);
+    },
+    editProject(projectID) {
+      console.log(projectID);
+    },
   },
 };
 </script>
