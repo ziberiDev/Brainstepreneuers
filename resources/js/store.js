@@ -26,6 +26,9 @@ const state = {
     projects: {
 
     },
+    projectToEdit: {
+
+    },
     pagination: {
 
     }
@@ -49,7 +52,8 @@ const mutations = {
         Vue.set(state.me, 'projects', payload)
     },
     UPDATE_MY_PROJECTS: (state, payload) => {
-        state.me.projects.push(payload)
+        let updatedProjects = [payload].concat(state.me.projects)
+        Vue.set(state.me, 'projects', updatedProjects);
     },
     SET_PAGINATION: (state, payload) => {
         Vue.set(state, 'pagination', payload)
@@ -66,6 +70,9 @@ const mutations = {
         } catch (error) {
             console.log(error)
         }
+    },
+    SET_PROJECT_EDIT: (state, project) => {
+        Vue.set(state, 'projectToEdit', project)
     }
 }
 const actions = {
@@ -81,6 +88,16 @@ const actions = {
             if (err) {
                 return err.response
             }
+        }
+    },
+    editProject: async ({ commit }, payload) => {
+        console.log(payload.projectID)
+
+        try {
+            const data = await axios.post(location.origin + `/api/project/${payload.projectID}/update`, payload.form);
+            return data
+        } catch (err) {
+            return err.response;
         }
     },
     getAccademies: ({ commit }) => {

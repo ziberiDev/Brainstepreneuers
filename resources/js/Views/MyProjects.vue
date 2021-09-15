@@ -2,26 +2,21 @@
   <div
     id="myProjects"
     class="container-fluid"
-    :class="projects == true ? 'bg-projects' : ''"
+    :class="create == false ? 'bg-projects' : ''"
   >
-    <div v-if="projects == true">
+    <div v-if="create == false && projectToEdit === null">
       <div class="row">
         <div class="col-12">
           <p class="fs-4 fw-bold">Have new idea to make the world better?</p>
           <p class="fs-2">
             Create new project
-            <span @click="projects = false" class="fs-1 add-project-btn"
-              >+</span
-            >
+            <span @click="create = true" class="fs-1 add-project-btn">+</span>
           </p>
         </div>
       </div>
       <div class="row">
         <div class="col-9 mx-auto">
-          <div
-            id="projects-container"
-            class="row projects-container"
-          >
+          <div id="projects-container" class="row projects-container">
             <Project
               class="my-5"
               v-for="(project, index) in myProjects"
@@ -33,8 +28,8 @@
         </div>
       </div>
     </div>
-    <!-- add Projects  -->
-    <div v-if="projects == false" class="row p-4 h-100">
+    <!-- ADD PROJECT VIEW  -->
+    <div v-if="create == true" class="row p-4 h-100">
       <div class="col-6">
         <p class="fs-3 fw-bold">New Project</p>
         <form @submit.prevent="register" class="w-100 mt-5">
@@ -67,7 +62,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           <AccademyButton
             :padding="'50px 0'"
             ref="accademy_btns"
-            @click.native="selectAccademy($event, accademy.id)"
+            @click.native="selectAccademy(accademy)"
             class="mt-5"
             v-for="accademy in accademies"
             :key="accademy.id + 'accademy'"
@@ -81,12 +76,63 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
           <Button @click.native="createProject" class="mt-auto">Create</Button>
           <Button
             @click.native="
-              projects = true;
+              create = false;
               selectedAccademies = [];
             "
             class="mt-auto"
             >Back</Button
           >
+        </div>
+      </div>
+    </div>
+    <!-- EDIT PROJECT VIEW  -->
+    <div v-if="projectToEdit" class="row p-4 h-100">
+      <div class="col-6">
+        <p class="fs-3 fw-bold">Edit Project</p>
+        <form @submit.prevent="register" class="w-100 mt-5">
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <input
+                type="text"
+                v-model="project_name"
+                placeholder="Name of project"
+              />
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-10">
+              <textarea
+                v-model="description"
+                class="w-100"
+                cols="30"
+                rows="6"
+                placeholder="Description of Project
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+              ></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-6 h-100 d-flex flex-column">
+        <p class="fs-3 fw-bold">What i need</p>
+        <div class="row row-cols-4 justify-content-center">
+          <AccademyButton
+            :padding="'50px 0'"
+            ref="accademy_btns"
+            @click.native="selectAccademy(accademy)"
+            class="mt-5"
+            v-for="accademy in accademies"
+            :key="accademy.id + 'accademy'"
+            :accademy="accademy"
+            :bgColor="setBgColorOfAccademy(accademy.id)"
+          />
+        </div>
+        <small class="align-self-end m-5 text-orange fw-bold"
+          >Please select no more tha 4 options</small
+        >
+        <div class="align-self-end">
+          <Button @click.native="editProject" class="mt-auto">Edit</Button>
+          <Button @click.native="stopEditing" class="mt-auto">Back</Button>
         </div>
       </div>
     </div>
@@ -96,11 +142,27 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
 import AccademyButton from "../components/AccademyButton.vue";
 import Button from "../components/Button.vue";
 import Project from "../components/Project.vue";
+import Vue from "vue";
 export default {
   props: ["myProjects"],
+  watch: {
+    "$store.state.projectToEdit": function (project) {
+      if (project != null) {
+        this.projectToEdit = project;
+        this.project_name = project.name;
+        this.description = project.description;
+        this.projectID = project.id;
+        for (const key in project.accademies) {
+          this.selectedAccademies.push(project.accademies[key].id);
+        }
+      }
+    },
+  },
   data() {
     return {
-      projects: true,
+      create: false,
+      projectToEdit: null,
+      projectID: null,
       project_name: "",
       description: "",
       selectedAccademies: [],
@@ -133,13 +195,15 @@ export default {
       container.style.height =
         document.body.clientHeight - 18 - navbar.clientHeight + "px";
     },
-    selectAccademy(event, accID) {
-      let selected = this.$refs["accademy_btns"][accID - 1].$el.children[0];
+
+    selectAccademy(accademy) {
+      let selected =
+        this.$refs["accademy_btns"][accademy.id - 1].$el.children[0];
       if (this.selectedAccademies.length == 4) {
         if (selected.className.includes("bg-green")) {
           this.toggleButton(selected);
           for (const key in this.selectedAccademies) {
-            if (this.selectedAccademies[key] == accID) {
+            if (this.selectedAccademies[key] == accademy.id) {
               this.selectedAccademies.splice(key, 1);
               return;
             }
@@ -156,19 +220,19 @@ export default {
         this.toggleButton(selected);
 
         for (const key in this.selectedAccademies) {
-          if (this.selectedAccademies[key] == accID) {
+          if (this.selectedAccademies[key] == accademy.id) {
             this.selectedAccademies.splice(key, 1);
             return;
           }
         }
       }
       this.toggleButton(selected);
-      this.selectedAccademies.push(accID);
+      this.selectedAccademies.push(accademy.id);
     },
 
     toggleButton(clickedElement) {
       clickedElement.classList.toggle("bg-green");
-      clickedElement.classList.toggle("bg-light");
+      clickedElement.classList.toggle("bg-white");
       clickedElement.classList.toggle("text-light");
     },
     createProject() {
@@ -184,7 +248,7 @@ export default {
           this.$errorMessage(data.data);
           return;
         }
-        this.projects = true;
+        this.create = false;
         this.project_name = "";
         this.description = "";
         this.selectedAccademies = [];
@@ -194,6 +258,42 @@ export default {
           title: "Project Created",
         });
       });
+    },
+    editProject() {
+      let form = new FormData();
+      form.append("name", this.project_name);
+      form.append("description", this.description);
+      this.selectedAccademies.forEach((accademy) => {
+        form.append("accademies[]", accademy);
+      });
+      this.$store
+        .dispatch("editProject", { form: form, projectID: this.projectID })
+        .then((data) => {
+          console.log(data);
+          if (data.status != 200) {
+            this.$errorMessage(data.data);
+            return;
+          }
+          this.stopEditing();
+          this.$notify({
+            group: "error",
+            type: "success",
+            title: "Project Created",
+          });
+        });
+    },
+    stopEditing() {
+      this.projectToEdit = null;
+      this.project_name = "";
+      this.description = "";
+      this.selectedAccademies = [];
+      Vue.set(this.$store.state, "projectToEdit", null);
+    },
+    setBgColorOfAccademy(accID) {
+      if (this.selectedAccademies.includes(accID)) {
+        return "bg-green text-white";
+      }
+      return "bg-white";
     },
   },
 };

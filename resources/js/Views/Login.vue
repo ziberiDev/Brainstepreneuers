@@ -77,7 +77,7 @@ export default {
           password: this.password,
         })
         .then((data) => {
-          console.log(data);
+      
           this.$store.dispatch("getMe").then(() => {
             if (this.me.registered == 0) {
               this.$router.replace("/step_" + this.me.step);

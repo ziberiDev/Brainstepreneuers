@@ -22,7 +22,7 @@
         <div
           @click="setAccademy(accademy.id, $event)"
           class="
-            bg-light
+            bg-white
             d-flex
             justify-content-center
             align-items-center

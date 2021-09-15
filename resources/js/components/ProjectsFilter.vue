@@ -56,11 +56,11 @@ export default {
       container.scroll({top:0 , behavior: 'smooth'});
       let accademy_btn = document.querySelectorAll(".accademy-btn");
       accademy_btn.forEach((element) => {
-        element.classList.add("bg-light");
+        element.classList.add("bg-white");
         element.classList.remove("bg-green");
         element.classList.remove("text-light");
       });
-      event.target.classList.toggle("bg-light");
+      event.target.classList.toggle("bg-white");
       event.target.classList.toggle("bg-green");
       event.target.classList.toggle("text-light");
     },

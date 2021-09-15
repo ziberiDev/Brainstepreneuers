@@ -87,7 +87,7 @@ class ProjectController extends Controller
         if ($updated) {
             AccademyProject::where('project_id', $project->id)->delete();
 
-            collect(explode(",", trim($request->accademies, "[ ]")))->each(function ($accademy_id) use ($project) {
+            collect($request->accademies)->each(function ($accademy_id) use ($project) {
                 try {
                     AccademyProject::create([
                         'accademy_id' => $accademy_id,
@@ -125,6 +125,7 @@ class ProjectController extends Controller
     {
         $myProjects = ProjectFilterResource::collection(Project::where('user_id', auth()->user()->id)
             ->with('owner', 'accademies')
+            ->latest()
             ->get());
         return response()->json($myProjects);
     }

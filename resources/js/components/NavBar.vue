@@ -56,24 +56,21 @@
         </ul>
       </div>
     </div>
-    <div>
+    <div @mouseenter="logout = true" @mouseleave="logout = false">
       <router-link :to="{ name: 'MyProfile', params: { page: 'projects' } }">
-        <div
-          @mouseover="logout = true"
-          @mouseleave="logout = false"
-          class="float-end me-5 mx-sm-auto"
-        >
+        <div class="float-end me-5 mx-sm-auto">
           <img class="user-image" :src="this.me.image" alt="user image" />
         </div>
       </router-link>
-      <div class="position-absolute logout-btn" v-if="logout">
-        <p>Logout</p>
+      <div @click="userLogout" class="logout-btn" v-if="logout">
+        <span class="">Logout</span>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "navbar",
   data() {
@@ -90,6 +87,18 @@ export default {
   mounted() {
     this.$store.dispatch("getMe");
     this.$store.dispatch("getAccademies");
+  },
+  methods: {
+    userLogout() {
+      axios
+        .post(location.origin + "/api/logout")
+        .then((data) => {
+          this.$router.push({ name: "login" });
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    },
   },
 };
 </script>
@@ -110,6 +119,11 @@ export default {
   }
 }
 .logout-btn {
-  bottom: 50px;
+  position: absolute;
+  cursor: pointer;
+  bottom: -5px;
+  right: 5px;
+  background-color: white;
+  z-index: 999;
 }
 </style>

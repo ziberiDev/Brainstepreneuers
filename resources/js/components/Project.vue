@@ -92,7 +92,7 @@
               alt="icon"
             />
             <img
-              @click="editProject(project.id)"
+              @click="$store.commit('SET_PROJECT_EDIT', project)"
               style="height: 30px; width: 25px; margin-top: 25px"
               src="/images/edit.png"
               alt="icon"
@@ -142,9 +142,6 @@ export default {
     deleteProject(projectID) {
       console.log("deleted");
       this.$store.dispatch("deleteProject", projectID);
-    },
-    editProject(projectID) {
-      console.log(projectID);
     },
   },
 };

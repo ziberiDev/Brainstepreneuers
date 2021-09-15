@@ -37,15 +37,7 @@ class AuthenticationController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        // //  Upload user image
-        // if ($request->file('image')) {
-        //     $imagepath = $this->service->uploadImage($request->image);
-        //     if ($imagepath)
-        //         return abort(424, 'Failed to load image');
-        // } else {
-        //     $imagepath = 'default-user-image.png';
-        // }
-        // create user
+       
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -84,9 +76,12 @@ class AuthenticationController extends Controller
     /**
      * Logout function
      */
-    public function  logout()
+    public function  logout(Request $request)
     {
         auth()->user()->tokens()->delete();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
 
         return [
             'message' => 'Tokens Revoked'

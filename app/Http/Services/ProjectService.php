@@ -25,7 +25,7 @@ class ProjectService
 
             ]);
             $accademies = $this->projectAccademiesRelation($project->id, collect($request->accademies));
-            return  ProjectResource::collection(Project::where('id', $project->id)
+            return  ProjectFilterResource::collection(Project::where('id', $project->id)
                 ->with('accademies', 'owner', 'applications')
                 ->get());
         } catch (\Illuminate\Database\QueryException $th) {

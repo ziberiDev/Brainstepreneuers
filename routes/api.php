@@ -55,8 +55,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->latest()
                 ->with(['owner', 'accademies'])
                 ->paginate(8)
-
-
         );
     });
 

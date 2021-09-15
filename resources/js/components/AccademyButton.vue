@@ -1,14 +1,7 @@
 <template>
   <div class="col text-center">
     <div
-      class="
-        btn
-        d-flex
-        justify-content-center
-        align-items-center
-        accademy-btn
-        bg-light
-      "
+      :class="['btn d-flex justify-content-center align-items-center accademy-btn' ,bgColor]"
       :style="styles"
     >
       {{ this.accademy.name }}
@@ -25,6 +18,10 @@ export default {
     padding: {
       type: String,
       default: "20px 0",
+    },
+    bgColor: {
+      type: String,
+      default: "bg-white",
     },
   },
   computed: {

@@ -3,7 +3,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
- require('./bootstrap');
+require('./bootstrap');
+var _ = require('lodash');
 import Vue from 'vue'
 import Notifications from 'vue-notification'
 import VueRouter from 'vue-router'
@@ -14,7 +15,7 @@ import global from './functions.js'
 
 
 
-Vue.component('app' , require('./App.vue').default)
+Vue.component('app', require('./App.vue').default)
 
 // window.Vue = require('vue').default;
 
@@ -29,7 +30,7 @@ new Vue({
     router,
     global,
     store,
-    commponents: {App},
+    commponents: { App },
 })
 
 
