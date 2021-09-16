@@ -42,6 +42,7 @@
           <div>
             <span>{{ project.name }}</span>
             <div
+              @click="setProjectView(project)"
               class="
                 d-flex
                 align-items-center
@@ -51,7 +52,7 @@
               "
             >
               <p>
-                {{ project.applications }}
+                {{ project.applications_count }}
                 <span>Applications</span>
               </p>
             </div>
@@ -106,6 +107,7 @@
 <script>
 import Button from "../components/Button.vue";
 import ApplyModal from "../components/ApplyModal.vue";
+import Vue from "vue";
 export default {
   props: {
     project: { type: Object },
@@ -142,6 +144,12 @@ export default {
     deleteProject(projectID) {
       console.log("deleted");
       this.$store.dispatch("deleteProject", projectID);
+    },
+    setProjectView(project) {
+      if (this.$route.name != "MyProfile") {
+        return;
+      }
+      this.$store.dispatch("setProjectProfile", project);
     },
   },
 };

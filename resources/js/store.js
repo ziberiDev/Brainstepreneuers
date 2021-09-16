@@ -29,6 +29,7 @@ const state = {
     projectToEdit: {
 
     },
+    projectProfile: null,
     pagination: {
 
     }
@@ -73,6 +74,9 @@ const mutations = {
     },
     SET_PROJECT_EDIT: (state, project) => {
         Vue.set(state, 'projectToEdit', project)
+    },
+    SET_PROJECT_PROFILE: (state, project) => {
+        Vue.set(state, 'projectProfile', project)
     }
 }
 const actions = {
@@ -114,6 +118,10 @@ const actions = {
 
 
         }).catch(err => reject(err))
+    },
+
+    setProjectProfile({ commit }, project) {
+        commit('SET_PROJECT_PROFILE', project)
     },
 
     getProjectsByAccademy({ commit }, accademyID) {

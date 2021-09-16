@@ -4,7 +4,9 @@
     class="container-fluid"
     :class="create == false ? 'bg-projects' : ''"
   >
-    <div v-if="create == false && projectToEdit === null">
+    <div
+      v-if="create == false && projectToEdit === null && projectView === null"
+    >
       <div class="row">
         <div class="col-12">
           <p class="fs-4 fw-bold">Have new idea to make the world better?</p>
@@ -136,12 +138,15 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
         </div>
       </div>
     </div>
+    <!-- Project VIEW -->
+    <ProjectView v-if="projectView" :project="project" />
   </div>
 </template>
 <script>
 import AccademyButton from "../components/AccademyButton.vue";
 import Button from "../components/Button.vue";
 import Project from "../components/Project.vue";
+import ProjectView from "./ProjectView.vue";
 import Vue from "vue";
 export default {
   props: ["myProjects"],
@@ -157,14 +162,25 @@ export default {
         }
       }
     },
+    "$store.state.projectProfile": function (project) {
+      if (project != null) {
+        this.projectView = true;
+        this.project = project;
+      } else {
+        this.projectView = false;
+        this.project = null;
+      }
+    },
   },
   data() {
     return {
       create: false,
       projectToEdit: null,
       projectID: null,
+      projectView: null,
       project_name: "",
       description: "",
+      project: {},
       selectedAccademies: [],
     };
   },
@@ -172,6 +188,7 @@ export default {
     Project,
     AccademyButton,
     Button,
+    ProjectView,
   },
   computed: {
     accademies() {
@@ -180,12 +197,11 @@ export default {
   },
   mounted() {
     this.calculateHeight();
-
-    window.addEventListener("resize", () => {
-      this.calculateHeight();
-
-      //   console.log("resized")
-    });
+    if (this.$route.name == "MyProfile") {
+      window.addEventListener("resize", () => {
+        this.calculateHeight();
+      });
+    }
   },
   methods: {
     calculateHeight() {

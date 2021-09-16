@@ -1,15 +1,21 @@
 <template >
-  <button  class="btn btn-rounded bg-green text-white btn-padding"><slot /></button>
+  <button :class="['btn btn-rounded text-white btn-padding', bgColor]">
+    <slot />
+  </button>
 </template>
 <script>
 export default {
-    methods:{
-    
-    }
+  props: {
+    bgColor: {
+      type: String,
+      default: "bg-green",
+    },
+  },
+  methods: {},
 };
 </script>
 <style>
 .btn-padding {
-    padding:  8px 80px;
+  padding: 8px 80px;
 }
 </style>

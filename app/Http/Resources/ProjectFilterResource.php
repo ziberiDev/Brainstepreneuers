@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\AccademyResource;
+use App\Http\Resources\ApplicantResource;
+use App\Http\Resources\ApplicationResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectFilterResource extends JsonResource
@@ -29,7 +31,8 @@ class ProjectFilterResource extends JsonResource
             ],
             'description' => $this->description,
             'assembled' => $this->assembled,
-            'applications' => $this->applications->count(),
+            'applications_count' => $this->applications->count(),
+            'applications' => ApplicationResource::collection($this->applications),
             'accademies' =>  AccademyResource::collection($this->accademies),
 
         ];
