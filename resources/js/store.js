@@ -52,7 +52,7 @@ const mutations = {
     SET_MY_PROJECTS: (state, payload) => {
         Vue.set(state.me, 'projects', payload)
     },
-    UPDATE_MY_PROJECTS: (state, payload) => {
+    CREATE_PROJECT: (state, payload) => {
         let updatedProjects = [payload].concat(state.me.projects)
         Vue.set(state.me, 'projects', updatedProjects);
     },
@@ -77,6 +77,19 @@ const mutations = {
     },
     SET_PROJECT_PROFILE: (state, project) => {
         Vue.set(state, 'projectProfile', project)
+    },
+    UPDATE_PROJECT_PROFILE: (state, project) => {
+                    
+    },
+    ACCEPT_APPLICATION: (state, applicationID) => {
+
+        let applications = state.projectProfile.applications
+        for (const key in applications) {
+            if (applications[key].id == applicationID) {
+                applications[key].accepted = 1
+            }
+        }
+
     }
 }
 const actions = {
@@ -86,7 +99,7 @@ const actions = {
 
         try {
             const res = await axios.post(location.origin + '/api/user/project/create', form);
-            commit('UPDATE_MY_PROJECTS', res.data.project[0])
+            commit('CREATE_PROJECT', res.data.project[0])
             return res
         } catch (err) {
             if (err) {
@@ -174,9 +187,15 @@ const actions = {
         }).catch(err => {
             reject(err)
         })
-
-
-
+    },
+    acceptApplication: async ({ commit }, applicationID) => {
+        try {
+            const data = await axios.post(location.origin + `/api/application/${applicationID}/accept`);
+            commit('ACCEPT_APPLICATION', applicationID)
+            return data;
+        } catch (err) {
+            return err;
+        }
     }
 }
 

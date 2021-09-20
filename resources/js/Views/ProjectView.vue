@@ -23,32 +23,12 @@
           :key="index"
           :application="application"
         ></StudentCard>
-        <StudentCard
-          v-for="(application, index) in project.applications"
-          :key="index"
-          :application="application"
-        ></StudentCard>
-        <StudentCard
-          v-for="(application, index) in project.applications"
-          :key="index"
-          :application="application"
-        ></StudentCard>
-        <StudentCard
-          v-for="(application, index) in project.applications"
-          :key="index"
-          :application="application"
-        ></StudentCard>
-        <StudentCard
-          v-for="(application, index) in project.applications"
-          :key="index"
-          :application="application"
-        ></StudentCard>
-        <StudentCard
-          v-for="(application, index) in project.applications"
-          :key="index"
-          :application="application"
-        ></StudentCard>
       </div>
+    </div>
+    <div>
+      <Button @click.native="unsetProjectProfile()" class="float-end"
+        >Back</Button
+      >
     </div>
   </div>
 </template>
@@ -64,7 +44,11 @@ export default {
     Button,
     StudentCard,
   },
-  methods: {},
+  methods: {
+    unsetProjectProfile() {
+      this.$store.state.projectProfile = null;
+    },
+  },
 };
 </script>
 <style scoped>

@@ -167,8 +167,9 @@ export default {
         this.projectView = true;
         this.project = project;
       } else {
-        this.projectView = false;
+        this.projectView = null;
         this.project = null;
+        this.create = false;
       }
     },
   },
@@ -294,7 +295,7 @@ export default {
           this.$notify({
             group: "error",
             type: "success",
-            title: "Project Created",
+            title: "Project Updated",
           });
         });
     },

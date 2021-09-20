@@ -1,6 +1,9 @@
-<template>
-  <div class="col">
-    <div class="bg-white">
+  <template>
+  <div class="col mt-5">
+    <div
+      class="rounded"
+      :class="application.accepted != null ? 'bg-gray' : 'bg-white'"
+    >
       <div class="text-center">
         <img class="student-img" :src="application.student.image" alt="" />
       </div>
@@ -16,6 +19,15 @@
         <div>
           <p>{{ application.message }}</p>
         </div>
+        <div>
+          <button
+            :disabled="application.accepted != null ? true : false"
+            @click="acceptApplication(application.id)"
+            class="btn fs-2"
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +39,15 @@ export default {
     return {};
   },
   mounted() {},
-  methods: {},
+  methods: {
+    acceptApplication(applicationID) {
+      this.$store
+        .dispatch("acceptApplication", applicationID)
+        .then((response) => {
+          console.log(response);
+        });
+    },
+  },
 };
 </script>
 <style scoped>
