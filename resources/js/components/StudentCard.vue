@@ -8,15 +8,18 @@
         <img class="student-img" :src="application.student.image" alt="" />
       </div>
       <div class="text-center">
-        <p class="fs-3 fw-bold">
+        <p class="fs-3 fw-bold mb-1">
           {{ application.student.first_name }}
           {{ application.student.last_name }}
         </p>
         <p
-          class="text-orange fw-bolder"
+          class="text-orange fw-bolder m-0"
           v-text="this.$positionExcerpt(application.student.accademy.name)"
         ></p>
-        <div>
+        <small>
+          {{ application.student.email }}
+        </small>
+        <div class="my-3">
           <p>{{ application.message }}</p>
         </div>
         <div>

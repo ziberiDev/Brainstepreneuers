@@ -56,6 +56,9 @@
 </template>
 
 <script>
+import VueRouter from "vue-router";
+import  Vue from 'vue'
+import store from '../store'
 export default {
   data() {
     return {
@@ -77,7 +80,7 @@ export default {
           password: this.password,
         })
         .then((data) => {
-      
+          Vue.set(store.state , 'authenticated' , true)
           this.$store.dispatch("getMe").then(() => {
             if (this.me.registered == 0) {
               this.$router.replace("/step_" + this.me.step);

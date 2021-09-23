@@ -93,7 +93,8 @@ export default {
       axios
         .post(location.origin + "/api/logout")
         .then((data) => {
-          this.$router.push({ name: "login" });
+          // this.$router.push({ name: "login" });
+          this.$router.go();
         })
         .catch((err) => {
           reject(err);

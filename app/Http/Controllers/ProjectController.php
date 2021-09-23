@@ -166,10 +166,15 @@ class ProjectController extends Controller
                         'accepted' => 0
                     ]);
                 });
-                return response('Project Assembled.', 200);
+                return response()->json([
+                    'message' => 'Project Assembled',
+                    'project' => new ProjectFilterResource(Project::with('owner', 'accademies')->find($project->id))
+                ]);
             }
             return response('Project could not be assemled', 500);
         }
-        return response('Project Alredy Assembled');
+        return response()->json([
+            'message' => 'Project Alredy Assembled'
+        ]);
     }
 }

@@ -6,6 +6,7 @@ import global from './functions.js'
 
 
 import Vuex from "vuex";
+import { data } from "autoprefixer";
 
 Vue.use(Vuex);
 Vue.use(global)
@@ -13,6 +14,7 @@ Vue.use(global)
 
 
 const state = {
+    authenticated: false,
     me: {
         projects: {},
         applications: {}
@@ -79,7 +81,7 @@ const mutations = {
         Vue.set(state, 'projectProfile', project)
     },
     UPDATE_PROJECT_PROFILE: (state, project) => {
-                    
+
     },
     ACCEPT_APPLICATION: (state, applicationID) => {
 
@@ -90,6 +92,19 @@ const mutations = {
             }
         }
 
+    },
+    UPDATE_MY_PROJECT: (state, project) => {
+        try {
+
+            for (const key in state.me.projects) {
+                if (state.me.projects[key].id == project.id) {
+                    state.me.projects.splice(key, 1, project)
+                }
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 const actions = {
@@ -108,7 +123,6 @@ const actions = {
         }
     },
     editProject: async ({ commit }, payload) => {
-        console.log(payload.projectID)
 
         try {
             const data = await axios.post(location.origin + `/api/project/${payload.projectID}/update`, payload.form);
@@ -195,6 +209,19 @@ const actions = {
             return data;
         } catch (err) {
             return err;
+        }
+    },
+    assembleProject: async ({ commit }, projectID) => {
+        try {
+            const data = await axios.post(location.origin + `/api/project/${projectID}/assemble`);
+            if (data.data.project) {
+                commit('UPDATE_MY_PROJECT', data.data.project)
+                commit('SET_PROJECT_PROFILE', data.data.project)
+            }
+            console.log(data)
+            return data.data.message
+        } catch (err) {
+            return reject(err);
         }
     }
 }

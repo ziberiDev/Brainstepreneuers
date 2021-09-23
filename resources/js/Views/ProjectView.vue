@@ -11,13 +11,19 @@
       <div class="text-center">
         <small class="d-block text-muted">Ready to start?</small>
         <small class="d-block text-muted">Click on the button below.</small>
-        <Button class="px-2" :bgColor="'orange-bg'"
+        <Button
+          @click.native="assembleProject(project.id)"
+          class="px-2"
+          :bgColor="'orange-bg'"
           >Team Assembled <i class="fas fa-check"></i
         ></Button>
       </div>
     </div>
     <div class="col-10 mx-auto">
       <div class="row row-cols-3 g-5">
+        <p v-if="!project.applications.length" class="fs-1">
+          No Applicants jet!!
+        </p>
         <StudentCard
           v-for="(application, index) in project.applications"
           :key="index"
@@ -47,6 +53,14 @@ export default {
   methods: {
     unsetProjectProfile() {
       this.$store.state.projectProfile = null;
+    },
+    assembleProject(projectID) {
+      this.$store.dispatch("assembleProject", projectID).then((message) => {
+        this.$notify({
+          group: "error",
+          title: message,
+        });
+      });
     },
   },
 };

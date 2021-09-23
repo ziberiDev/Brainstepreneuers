@@ -7,11 +7,14 @@
         this.$route.name != 'register' &&
         this.$route.name != 'step_1' &&
         this.$route.name != 'step_2' &&
-        this.$route.name != 'step_3'
+        this.$route.name != 'step_3' &&
+        this.$route.name != '404'
       "
     ></NavBar>
 
-    <router-view> </router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 <script>
@@ -23,9 +26,7 @@ export default {
     NavBar,
   },
   data() {
-    return {
-     
-    };
+    return {};
   },
   mounted() {},
   computed: {},

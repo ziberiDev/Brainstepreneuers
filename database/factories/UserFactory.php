@@ -25,7 +25,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $filepath = storage_path('app/public/images');
-        if(!File::exists($filepath)){
+        if (!File::exists($filepath)) {
             File::makeDirectory($filepath);
         }
 
@@ -34,9 +34,11 @@ class UserFactory extends Factory
             'last_name' => $this->faker->lastName(),
             'accademy_id' => Accademy::inRandomOrder()->first()->id,
             'biography' => $this->faker->text(400),
-            'image' => $this->faker->image($filepath , 640 , 480 , null , false),
+            'image' => $this->faker->image($filepath, 640, 480, null, false),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'registered' => 1,
+            'step' => 3,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
