@@ -81,6 +81,7 @@ export default {
         })
         .then((data) => {
           Vue.set(store.state , 'authenticated' , true)
+          // localStorage.setItem('key' , true),
           this.$store.dispatch("getMe").then(() => {
             if (this.me.registered == 0) {
               this.$router.replace("/step_" + this.me.step);

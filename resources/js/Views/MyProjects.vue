@@ -143,7 +143,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   </div>
 </template>
 <script>
-import AccademyButton from "../components/AccademyButton.vue";
+import AccademyButton from "../components/ComputedButton.vue";
 import Button from "../components/Button.vue";
 import Project from "../components/Project.vue";
 import ProjectView from "./ProjectView.vue";
@@ -334,4 +334,5 @@ export default {
 .add-project-btn {
   cursor: pointer;
 }
+
 </style>

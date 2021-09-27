@@ -18,6 +18,8 @@
   </div>
 </template>
 <script>
+import Vue from "vue";
+import store from "./store.js";
 import NavBar from "./components/NavBar.vue";
 import router from "./Router/router.js";
 export default {
@@ -28,7 +30,12 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    console.log(localStorage.key("key")
+)
+    // const authenticated = localStorage.getItem("key");
+    // Vue.set(store.state, "authenticated", JSON.parse(authenticated));
+  },
   computed: {},
   methods: {},
 };

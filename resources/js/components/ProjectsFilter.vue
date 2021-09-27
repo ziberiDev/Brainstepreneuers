@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import AccademyButton from "./AccademyButton.vue";
+import AccademyButton from "./ComputedButton.vue";
 export default {
   props: ["accademies"],
   data() {

@@ -8,7 +8,7 @@
         <img class="student-img" :src="application.student.image" alt="" />
       </div>
       <div class="text-center">
-        <p class="fs-3 fw-bold mb-1">
+        <p @click="$emit('setStudent' , application.student)" class="fs-3 fw-bold mb-1">
           {{ application.student.first_name }}
           {{ application.student.last_name }}
         </p>

@@ -20,6 +20,7 @@ class ApplicantResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'biography' => $this->biography,
             'image' => asset("storage/images/{$this->image}"),
             'accademy' => new AccademyResource($this->accademy),
             'skills' => SkillResource::collection($this->skills),

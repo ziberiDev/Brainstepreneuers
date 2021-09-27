@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import Vue from "Vue";
 import axios from "axios";
 export default {
   name: "navbar",
@@ -93,7 +94,6 @@ export default {
       axios
         .post(location.origin + "/api/logout")
         .then((data) => {
-          // this.$router.push({ name: "login" });
           this.$router.go();
         })
         .catch((err) => {

@@ -1,5 +1,12 @@
 <template>
-  <div class="row p-2 h-100 bg-main">
+  <div
+    class="row p-2 position-relative h-100 bg-main"
+    :class="student ? 'dim' : ''"
+  >
+    <div class="col-12 bg-main studentModal" v-if="student">
+      <StudentProfile @closeStudentView="closeStudentView" :student="student" />
+    </div>
+
     <div class="col-12 d-flex justify-content-between">
       <div>
         <p class="fs-3 fw-bold">{{ project.name }} - Applicants</p>
@@ -25,12 +32,14 @@
           No Applicants jet!!
         </p>
         <StudentCard
+          @setStudent="showModal($event)"
           v-for="(application, index) in project.applications"
           :key="index"
           :application="application"
         ></StudentCard>
       </div>
     </div>
+
     <div>
       <Button @click.native="unsetProjectProfile()" class="float-end"
         >Back</Button
@@ -41,14 +50,18 @@
 <script>
 import Button from "../components/Button.vue";
 import StudentCard from "../components/StudentCard.vue";
+import StudentProfile from "../components/StudentProfile.vue";
 export default {
   props: ["project"],
   data() {
-    return {};
+    return {
+      student: false,
+    };
   },
   components: {
     Button,
     StudentCard,
+    StudentProfile,
   },
   methods: {
     unsetProjectProfile() {
@@ -62,6 +75,15 @@ export default {
         });
       });
     },
+    showModal: function (_student) {
+      this.student = _student;
+    },
+    closeStudentView: function () {
+      this.student = false;
+    },
+  },
+  beforeDestroy() {
+    this.$store.dispatch("setProjectProfile", null);
   },
 };
 </script>
@@ -71,5 +93,16 @@ export default {
   margin-left: 25px;
   padding: 15px;
   height: 9%;
+}
+.studentModal {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  opacity: 1;
 }
 </style>
