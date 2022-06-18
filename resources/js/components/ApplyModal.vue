@@ -70,7 +70,7 @@ export default {
           message: this.message,
         })
         .then((res) => {
-          this.$store.dispatch("getAllProjects");
+          this.$store.dispatch("getAllProjects"); // check home for new projects possible bug for displaying projects after creation
           this.message = "";
           this.modal.hide();
           this.$notify({

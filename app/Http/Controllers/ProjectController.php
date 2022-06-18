@@ -31,7 +31,7 @@ class ProjectController extends Controller
     /**
      * Display a listing of the projects depending on requested accademies.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function filter($accademy_id)
     {
@@ -132,7 +132,7 @@ class ProjectController extends Controller
 
     /**
      * Apply for the certain Project
-     * 
+     *
      * @param int $id The id of the project
      * @param \App\Http\Requests\ApplicationRequest $request
      */
@@ -152,8 +152,8 @@ class ProjectController extends Controller
 
     /**
      * Assemble the selected project
-     * 
-     * 
+     *
+     *
      */
     public function assemble(Project $project)
     {

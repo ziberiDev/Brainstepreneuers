@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProjectApplication extends Model
 {
@@ -17,12 +18,14 @@ class ProjectApplication extends Model
         'accepted'
     ];
 
-    public function project()
+
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class)->with('owner');
     }
 
-    public function applicant() {
+    public function applicant(): HasOne
+    {
         return $this->hasOne(User::class , "id" , "user_id");
     }
 }

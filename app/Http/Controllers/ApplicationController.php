@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProjectApplication;
-use Illuminate\Http\Request;
+
 
 class ApplicationController extends Controller
 {
@@ -13,13 +13,11 @@ class ApplicationController extends Controller
     public function cancel(ProjectApplication $application)
     {
 
-        if (($application->accepted != 1) || ($application->accepted != 0)) {
-            try {
-                $application->delete();
-                return response('Application canceled.');
-            } catch (\LogicException $th) {
-                return abort(409, "Something went wrong");
-            }
+        if (($application->accepted != 1) || ($application->accepted != 0)) try {
+            $application->delete();
+            return response('Application canceled.');
+        } catch (\LogicException $th) {
+            return abort(409, "Something went wrong");
         }
         return response('Application has been  accepted.');
     }
@@ -31,7 +29,7 @@ class ApplicationController extends Controller
     {
 
         if (($application->accepted === null)) {
-            
+
             $updated = $application->update([
                 'accepted' => 1
             ]);
@@ -41,6 +39,6 @@ class ApplicationController extends Controller
 
             return abort(409, "Something went wrong");
         }
-        return response('Application is allredy accepted.');
+        return response('Application is already accepted.');
     }
 }

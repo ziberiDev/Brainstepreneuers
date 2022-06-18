@@ -15,7 +15,7 @@ class ProjectService
     /**
      * Create project and tie accademies
      */
-    public function createProject(Request $request):AnonymousResourceCollection|false
+    public function createProject(Request $request):AnonymousResourceCollection|bool
     {
         try {
             $project = Project::create([
@@ -35,7 +35,7 @@ class ProjectService
 
     /**
      * Tie the project to the requested accademies into accademy_projects table
-     * 
+     *
      * @param int $projectID the created project ID
      * @param  \Illuminate\Support\Collection $accademies a collection from request accademies
      */

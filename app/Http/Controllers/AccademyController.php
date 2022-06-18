@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accademy;
 use Illuminate\Http\Request;
-
+// TODO  Make a new method
 class AccademyController extends Controller
 {
     /**
