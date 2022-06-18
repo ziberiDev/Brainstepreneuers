@@ -31,14 +31,18 @@ class ProjectController extends Controller
     /**
      * Display a listing of the projects depending on requested accademies.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function filter($accademy_id)
     {
         $projects = Project::whereHas('accademies', function (Builder $query) use ($accademy_id) {
             $query->where('accademy_id', $accademy_id);
-        })->with('accademies', 'owner')->get();
-        // return $projects;
+            $query->where('user_id', '!=', auth()->user()->id);
+        })
+            ->latest()
+            ->with('accademies', 'owner')
+            ->paginate(8);
+
         return ProjectFilterResource::collection($projects);
     }
     /**
@@ -51,8 +55,8 @@ class ProjectController extends Controller
     {
         // Create project and tie with accademy_projects (use service)
 
-        if ($this->service->createProject($request)) {
-            return response()->json(['message' => 'Project Created']);
+        if ($project = $this->service->createProject($request)) {
+            return response()->json(['message' => 'Project Created', 'project' => $project]);
         }
         return abort(409, 'could not create project.');
     }
@@ -83,7 +87,7 @@ class ProjectController extends Controller
         if ($updated) {
             AccademyProject::where('project_id', $project->id)->delete();
 
-            collect(explode(",", trim($request->accademies, "[ ]")))->each(function ($accademy_id) use ($project) {
+            collect($request->accademies)->each(function ($accademy_id) use ($project) {
                 try {
                     AccademyProject::create([
                         'accademy_id' => $accademy_id,
@@ -93,7 +97,6 @@ class ProjectController extends Controller
                     return abort(409, "Something went wrong");
                 }
             });
-
             return response('Project Updated');
         }
         return abort(409, "Something went wrong");
@@ -120,14 +123,16 @@ class ProjectController extends Controller
      */
     public function userprojects()
     {
-        return ProjectResource::collection(Project::where('user_id', auth()->user()->id)
-            ->with('owner')
+        $myProjects = ProjectFilterResource::collection(Project::where('user_id', auth()->user()->id)
+            ->with('owner', 'accademies')
+            ->latest()
             ->get());
+        return response()->json($myProjects);
     }
 
     /**
      * Apply for the certain Project
-     * 
+     *
      * @param int $id The id of the project
      * @param \App\Http\Requests\ApplicationRequest $request
      */
@@ -147,8 +152,8 @@ class ProjectController extends Controller
 
     /**
      * Assemble the selected project
-     * 
-     * 
+     *
+     *
      */
     public function assemble(Project $project)
     {
@@ -161,10 +166,15 @@ class ProjectController extends Controller
                         'accepted' => 0
                     ]);
                 });
-                return response('Project Assembled.', 200);
+                return response()->json([
+                    'message' => 'Project Assembled',
+                    'project' => new ProjectFilterResource(Project::with('owner', 'accademies')->find($project->id))
+                ]);
             }
             return response('Project could not be assemled', 500);
         }
-        return response('Project Alredy Assembled');
+        return response()->json([
+            'message' => 'Project Alredy Assembled'
+        ]);
     }
 }

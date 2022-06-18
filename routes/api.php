@@ -1,11 +1,21 @@
 <?php
 
+use App\Models\Skill;
+use App\Models\Project;
+use App\Models\Accademy;
 use Illuminate\Http\Request;
+use App\Models\ProjectApplication;
+use App\Http\Resources\SkillResource;
 use Illuminate\Support\Facades\Route;
+use App\Http\Resources\ProjectResource;
 use App\Http\Controllers\UserController;
+use App\Http\Resources\AccademyResource;
 use App\Http\Controllers\ProjectController;
+use App\Http\Resources\ProjectFilterResource;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ApiAuth\AuthenticationController;
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Resources\ProjectFilterCollection;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +34,30 @@ use App\Http\Controllers\ApiAuth\AuthenticationController;
 Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
+    // steps for profile 
+    Route::post('/step-1', [AuthenticationController::class, 'step_1']);
+    Route::post('/step-2', [AuthenticationController::class, 'step_2']);
+    Route::post('/step-3', [AuthenticationController::class, 'step_3']);
+
+    //accademies
+    Route::get('/accademies', function () {
+        return response()->json(AccademyResource::collection(Accademy::all()));
+    });
+    //skills
+    Route::get('/skills', function () {
+        return response()->json(SkillResource::collection(Skill::all()));
+    });
+    //all projects
+    Route::get('projects', function () {
+
+        return ProjectFilterResource::collection(
+            Project::where('user_id', '!=', auth()->user()->id)
+                ->latest()
+                ->with(['owner', 'accademies'])
+                ->paginate(8)
+        );
+    });
+
     // logout
     Route::post('/logout', [AuthenticationController::class, 'logout']);
 

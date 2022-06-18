@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\ProjectApplication;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApplicationRequest extends FormRequest
@@ -23,8 +25,21 @@ class ApplicationRequest extends FormRequest
      */
     public function rules()
     {
+        $users = ProjectApplication::where('project_id', request('project_id'))->get('user_id');
+        $newA = array_reduce(collect($users)->toArray(), function ($new, $item) {
+            $new[] = $item['user_id'];
+            return $new;
+        });
         return [
-          'message' => 'required|string|min:10|max:200'
+            'user_id' => Rule::notIn($newA),
+            'message' => 'required|string|min:10|max:200'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'user_id.not_in' => 'You have alredy applied'
         ];
     }
 }

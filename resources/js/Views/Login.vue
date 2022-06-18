@@ -2,7 +2,7 @@
   <div class="container-fluid vh-100 bg-login">
     <div class="row vh-100">
       <div class="col-8 h-100">
-        <div class="height">
+        <div class="margin">
           <p class="fs-1 fw-bold me-4">
             <span class="black-font">Brainsters</span
             ><span class="gray-font">Preneuers</span>
@@ -42,6 +42,12 @@
             >
               Login
             </button>
+            <div class="mt-3">
+              <p>
+                Don't have an account, register
+                <router-link to="/register">here</router-link>
+              </p>
+            </div>
           </div>
         </form>
       </div>
@@ -50,6 +56,9 @@
 </template>
 
 <script>
+import VueRouter from "vue-router";
+import  Vue from 'vue'
+import store from '../store'
 export default {
   data() {
     return {
@@ -58,6 +67,11 @@ export default {
     };
   },
   mounted() {},
+  computed: {
+    me() {
+      return this.$store.state.me;
+    },
+  },
   methods: {
     login() {
       axios
@@ -65,42 +79,34 @@ export default {
           email: this.email,
           password: this.password,
         })
-        .then((data) => console.log(data))
-        .catch((err) => {
-      
-          this.$notify({
-            group: "error",
-            type: "error",
-            ignoreDuplicates: false,
-            max:4,
-            title: "Login failed",
-            text: `<ul><li>Message</li></ul>\n`,
+        .then((data) => {
+          Vue.set(store.state , 'authenticated' , true)
+          // localStorage.setItem('key' , true),
+          this.$store.dispatch("getMe").then(() => {
+            if (this.me.registered == 0) {
+              this.$router.replace("/step_" + this.me.step);
+            } else {
+              this.$router.push({ name: "home" });
+            }
           });
+        })
+        .catch((err) => {
+          if (err) {
+            this.$errorMessage(err.response.data);
+          }
         });
     },
   },
 };
 </script>
 <style scoped>
-input#email,
-input#password {
-  font-size: 20px;
-  border: none;
-  background-color: transparent;
-  border-bottom: 5px solid black;
-  border-radius: 5%;
-}
-input#email,
-input#password:focus {
-  outline: none;
-}
-.height {
+.margin {
   margin: 200px;
 }
 .bg-login {
   background-image: url("../assets/bg-images/1.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
 }
 </style>>

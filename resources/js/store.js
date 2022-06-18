@@ -1,0 +1,233 @@
+import axios from "axios";
+import { reject } from "lodash";
+import Vue from "vue";
+import global from './functions.js'
+
+
+
+import Vuex from "vuex";
+import { data } from "autoprefixer";
+
+Vue.use(Vuex);
+Vue.use(global)
+
+
+
+const state = {
+    authenticated: false,
+    me: {
+        projects: {},
+        applications: {}
+    },
+    accademies: {
+
+    },
+    skills: {
+
+    },
+    projects: {
+
+    },
+    projectToEdit: {
+
+    },
+    projectProfile: null,
+    pagination: {
+
+    }
+
+}
+
+const mutations = {
+    SET_ACCADEMIES: (state, payload) => {
+        Vue.set(state, 'accademies', payload)
+    },
+    SET_USER: (state, payload) => {
+        Vue.set(state, 'me', payload)
+    },
+    SET_SKILLS: (state, payload) => {
+        Vue.set(state, 'skills', payload)
+    },
+    SET_PROJECTS: (state, payload) => {
+        Vue.set(state, 'projects', payload)
+    },
+    SET_MY_PROJECTS: (state, payload) => {
+        Vue.set(state.me, 'projects', payload)
+    },
+    CREATE_PROJECT: (state, payload) => {
+        let updatedProjects = [payload].concat(state.me.projects)
+        Vue.set(state.me, 'projects', updatedProjects);
+    },
+    SET_PAGINATION: (state, payload) => {
+        Vue.set(state, 'pagination', payload)
+    },
+    DELETE_MY_PROJECT: (state, Pid) => {
+
+        try {
+            for (const key of state.me.projects) {
+                if (key.id == Pid) {
+                    state.me.projects.splice(key, 1)
+                    return
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    SET_PROJECT_EDIT: (state, project) => {
+        Vue.set(state, 'projectToEdit', project)
+    },
+    SET_PROJECT_PROFILE: (state, project) => {
+        Vue.set(state, 'projectProfile', project)
+    },
+    UPDATE_PROJECT_PROFILE: (state, project) => {
+
+    },
+    ACCEPT_APPLICATION: (state, applicationID) => {
+
+        let applications = state.projectProfile.applications
+        for (const key in applications) {
+            if (applications[key].id == applicationID) {
+                applications[key].accepted = 1
+            }
+        }
+
+    },
+    UPDATE_MY_PROJECT: (state, project) => {
+        try {
+
+            for (const key in state.me.projects) {
+                if (state.me.projects[key].id == project.id) {
+                    state.me.projects.splice(key, 1, project)
+                }
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+const actions = {
+    createProject: async ({ commit }, form) => {
+        // console.log(form.getAll('accademies[]'))
+        // return
+
+        try {
+            const res = await axios.post(location.origin + '/api/user/project/create', form);
+            commit('CREATE_PROJECT', res.data.project[0])
+            return res
+        } catch (err) {
+            if (err) {
+                return err.response
+            }
+        }
+    },
+    editProject: async ({ commit }, payload) => {
+
+        try {
+            const data = await axios.post(location.origin + `/api/project/${payload.projectID}/update`, payload.form);
+            return data
+        } catch (err) {
+            return err.response;
+        }
+    },
+    getAccademies: ({ commit }) => {
+        axios.get(location.origin + '/api/accademies').then(data => {
+            commit('SET_ACCADEMIES', data.data)
+        }).catch(error => {
+            reject(error);
+        });
+    },
+    getAllProjects({ commit }) {
+        axios.get(location.origin + '/api/projects').then(data => {
+            commit('SET_PROJECTS', data.data.projects)
+            commit('SET_PAGINATION', data.data.meta)
+
+
+        }).catch(err => reject(err))
+    },
+
+    setProjectProfile({ commit }, project) {
+        commit('SET_PROJECT_PROFILE', project)
+    },
+
+    getProjectsByAccademy({ commit }, accademyID) {
+        axios.get(location.origin + '/api/projects/' + accademyID + '/filter').then(data => {
+            console.log(data)
+            commit('SET_PROJECTS', data.data.projects)
+            commit('SET_PAGINATION', data.data.meta)
+        }).catch(err => {
+            resolve(err)
+        })
+    },
+
+    getMe: async ({ commit }) => {
+        try {
+            const data = await axios.get(location.origin + '/api/me');
+            commit('SET_USER', data.data);
+        } catch (error) {
+            reject(error);
+        }
+    },
+    getSkills: ({ commit }) => {
+        axios.get(location.origin + '/api/skills').then(data => {
+            commit('SET_SKILLS', data.data)
+        }).catch(error => {
+            reject(error)
+        })
+    },
+    getMyProjects: ({ commit }) => {
+        axios.get(location.origin + '/api/me/projects')
+            .then(data => {
+                commit('SET_MY_PROJECTS', data.data)
+            }).catch(err => {
+                reject(err)
+            })
+    },
+    updateUserSkills: async ({ commit }, skills) => {
+        try {
+            const data = await axios.post(location.origin + '/api/step-2', {
+                skills: skills
+            });
+            return data;
+        } catch (error) {
+            return error;
+        }
+    },
+    deleteProject: ({ commit }, projectID) => {
+
+        axios.delete(`/api/project/${projectID}/delete`).then(data => {
+            commit('DELETE_MY_PROJECT', projectID);
+        }).catch(err => {
+            reject(err)
+        })
+    },
+    acceptApplication: async ({ commit }, applicationID) => {
+        try {
+            const data = await axios.post(location.origin + `/api/application/${applicationID}/accept`);
+            commit('ACCEPT_APPLICATION', applicationID)
+            return data;
+        } catch (err) {
+            return err;
+        }
+    },
+    assembleProject: async ({ commit }, projectID) => {
+        try {
+            const data = await axios.post(location.origin + `/api/project/${projectID}/assemble`);
+            if (data.data.project) {
+                commit('UPDATE_MY_PROJECT', data.data.project)
+                commit('SET_PROJECT_PROFILE', data.data.project)
+            }
+            console.log(data)
+            return data.data.message
+        } catch (err) {
+            return reject(err);
+        }
+    }
+}
+
+export default new Vuex.Store({
+    state,
+    actions,
+    mutations
+})

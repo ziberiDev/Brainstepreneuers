@@ -1,23 +1,45 @@
 <template>
-  <div class="app">
-    <notifications  position="top center" group="error" />
-
-    <!-- <NavBar></NavBar> -->
-    <router-view></router-view>
-  </div>
+    <div class="app vh-100 bg-main">
+        <notifications position="center" group="error"/>
+        <NavBar
+            v-if="
+        this.$route.name !== 'login' &&
+        this.$route.name !== 'register' &&
+        this.$route.name !== 'step_1' &&
+        this.$route.name !== 'step_2' &&
+        this.$route.name !== 'step_3' &&
+        this.$route.name !== '404'
+      "
+        ></NavBar>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+    </div>
 </template>
 <script>
 import NavBar from "./components/NavBar.vue";
+
 export default {
-  name: "app",
-  components: {
-    NavBar,
-  },
+    name: "app",
+    components: {
+        NavBar,
+    },
+    data() {
+        return {};
+    },
+    mounted() {
+        console.log(localStorage.key("key"))
+
+        // const authenticated = localStorage.getItem("key");
+        // Vue.set(store.state, "authenticated", JSON.parse(authenticated));
+    },
+    computed: {},
+    methods: {
+        callMe() {
+
+        }
+    },
 };
 </script>
 <style scoped>
-.my-warning-notification {
-background-color: tomato;
-
-}
 </style>

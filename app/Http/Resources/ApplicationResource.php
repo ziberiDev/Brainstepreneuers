@@ -16,12 +16,12 @@ class ApplicationResource extends JsonResource
      */
     public function toArray($request)
     {
-        $applicant = User::where('id' , $this->user_id)->with('accademy')->get();
+        $applicant = User::with('accademy')->findOrFail($this->user_id);
         return [
-            'id' =>$this->id,
-            'message'=>$this->message,
-            'accepted' =>$this->accepted,
-            'applicant' =>  ApplicantResource::collection($applicant)
+            'id' => $this->id,
+            'message' => $this->message,
+            'accepted' => $this->accepted,
+            'student' =>  new ApplicantResource($applicant)
         ];
     }
 }
