@@ -50,7 +50,7 @@
             "@php artisan key:generate --ansi"
         ],
         "compile": [
-            "@php artisan migrate --seed",
+            "@php artisan migrate:fresh --seed",
             "@php artisan storage:link"
         ]
     },
