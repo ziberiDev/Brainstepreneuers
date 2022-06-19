@@ -22,12 +22,12 @@ class UserResource extends JsonResource
             'last_name'=> $this->last_name,
             'email' => $this->email,
             'biography' =>$this->biography,
-            'image' => asset("storage/images/{$this->image}"),
+            'image' => mix("storage/images/{$this->image}"),
             'accademy' => new AccademyResource($this->accademy),
             "skills" => SkillResource::collection($this->skills),
             'registered' => $this->registered,
             'step' => $this->step
-          
+
         ];
     }
 }
